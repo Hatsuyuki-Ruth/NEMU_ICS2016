@@ -34,7 +34,7 @@ static struct rule {
 	{"\\|\\|", OR},
 	{"!", NOT},
 	{"\\d+", NUM},
-	{"%\\w{3}", REG},
+	{"$\\w{3}", REG},
 	{"0x([0-9] | [A-F] | [a-f])+", NUM16}
 };
 
@@ -88,14 +88,16 @@ static bool make_token(char *e) {
 				 * to record the token in the array `tokens'. For certain types
 				 * of tokens, some extra actions should be performed.
 				 */
-
+				char tmp = e[position + substr_len];
+				e[position + substr_len] = '\0';
 				switch(rules[i].token_type) {
-					
-					default: panic("please implement me");
+					case NUM: strcpy(tokens[nr_token].str, e + position); break;
+					case NUM16: strcpy(tokens[nr_token].str, e + position); break;
+					case REG: strcpy(tokens[nr_token].str, e + position);
 				}
-
+				e[position + substr_len] = tmp;
+				tokens[nr_token].type = rules[i].token_type;
 				nr_token++;
-
 				break;
 			}
 		}
@@ -105,7 +107,10 @@ static bool make_token(char *e) {
 			return false;
 		}
 	}
-
+	for(i = 0; i < nr_token; i++) {
+		printf("%d\n", tokens[i].type);
+		printf("%s\n", tokens[i].str);
+	}
 	return true; 
 }
 
@@ -118,6 +123,6 @@ uint32_t expr(char *e, bool *success) {
 	}
 
 	/* TODO: Insert codes to evaluate the expression. */
-	panic("please implement me");
+	//panic("please implement me");
 	return 0;
 }
