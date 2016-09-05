@@ -62,7 +62,8 @@ static int cmd_info(char *args) {
 
 static int cmd_p(char *args) {
 	bool successful;
-	return expr(args, &successful); 
+	printf("Result: %d\n", expr(args, &successful));
+	return 0; 
 }
 
 static struct {
