@@ -60,6 +60,11 @@ static int cmd_info(char *args) {
 	return 0;
 }
 
+static int cmd_p(char *args) {
+	bool successful;
+	return expr(args, &successful); 
+}
+
 static struct {
 	char *name;
 	char *description;
@@ -69,7 +74,8 @@ static struct {
 	{ "c", "Continue the execution of the program", cmd_c },
 	{ "q", "Exit NEMU", cmd_q },
 	{ "si", "Run several steps", cmd_si },
-	{ "info", "Print some freaking awesome information about the program", cmd_info }
+	{ "info", "Print some freaking awesome information about the program", cmd_info },
+	{ "p", "Evaluate an expression", cmd_p }
 	/* TODO: Add more commands */
 
 };

@@ -7,8 +7,7 @@
 #include <regex.h>
 
 enum {
-	NOTYPE = 256, EQ
-
+	NOTYPE = 256, EQ, DIV, MUL, LEFT_B, RIGHT_B, NEQ, AND, OR, NOT, NUM, NUM16, REG
 	/* TODO: Add more token types */
 
 };
@@ -24,7 +23,19 @@ static struct rule {
 
 	{" +",	NOTYPE},				// spaces
 	{"\\+", '+'},					// plus
-	{"==", EQ}						// equal
+	{"==", EQ},						// equal
+	{"/", DIV},
+	{"-", '-'},
+	{"\\*", MUL},
+	{"\\(", LEFT_B},
+	{"\\)", RIGHT_B},
+	{"!=", NEQ},
+	{"\\&\\&", AND},
+	{"\\|\\|", OR},
+	{"!", NOT},
+	{"\\d+", NUM},
+	{"%\\w{3}", REG},
+	{"0x([0-9] | [A-F] | [a-f])+", NUM16}
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -53,7 +64,7 @@ typedef struct token {
 	char str[32];
 } Token;
 
-Token tokens[32];
+Token tokens[1024];
 int nr_token;
 
 static bool make_token(char *e) {
@@ -79,8 +90,11 @@ static bool make_token(char *e) {
 				 */
 
 				switch(rules[i].token_type) {
+					
 					default: panic("please implement me");
 				}
+
+				nr_token++;
 
 				break;
 			}
@@ -95,6 +109,8 @@ static bool make_token(char *e) {
 	return true; 
 }
 
+
+
 uint32_t expr(char *e, bool *success) {
 	if(!make_token(e)) {
 		*success = false;
@@ -105,4 +121,3 @@ uint32_t expr(char *e, bool *success) {
 	panic("please implement me");
 	return 0;
 }
-
