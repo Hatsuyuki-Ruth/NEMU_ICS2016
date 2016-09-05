@@ -135,6 +135,7 @@ int get_int(char *st) {
 	int res = 0;
 	while(st != '\0') {
 		res = res * 10 + (*st - '0');
+		st++;
 	}
 	return res;
 }
@@ -147,6 +148,7 @@ int get_int16(char *st) {
 		else if('a' <= *st && *st <= 'f') tmp = *st - 'a' + 10;
 		else tmp = *st - 'A' + 10;
 		res = res * 10 + tmp;
+		st++;
 	}
 	return res;
 }
@@ -184,6 +186,7 @@ int check_parentheses(int p, int q) {
 }
 
 int eval(int p, int q) {
+	printf("%d %d\n", p, q);
 	if(p > q) { return 0; }
 	else if(p == q) {
 		if(tokens[p].type == NUM) return get_int(tokens[p].str);
