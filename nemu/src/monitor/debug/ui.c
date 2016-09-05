@@ -42,14 +42,9 @@ static int cmd_si(char *args) {
 //	volatile int arg_len = strlen(args);
 	int arg = 0;
 //	printf("%s\n", args);
-	sscanf(args, "%d", &arg);
-	//while(args != NULL) {
-//		printf("%s\n", args);
-	//	arg = arg * 10 + (*args - '0');
-	//	args++;
-	//}
-	printf("%d\n", arg);
-	if(arg == 0) { arg = 1; }
+	int num_get = sscanf(args, "%d", &arg);
+//	printf("%d\n", arg);
+	if(!num_get) { arg = 1; }
 	cpu_exec(arg);
 	return 0;
 }
