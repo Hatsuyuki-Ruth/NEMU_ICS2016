@@ -238,9 +238,10 @@ int expr(char *e, bool *success) {
 		*success = false;
 		return 0;
 	}
-	int i;
+	int i, prev = -1;
 	for(i = 0; i < nr_token; i++) {
-		if(tokens[i].type == MUL && (i == 0 || (tokens[i - 1].type == NUM || tokens[i - 1].type == NUM16 || tokens[i].type == REG))) tokens[i].type = DEREF;
+		if(tokens[i].type == MUL && (i == 0 || (tokens[prev].type == NUM || tokens[prev].type == NUM16 || tokens[prev].type == REG))) tokens[i].type = DEREF;
+		if(tokens[i].type != NOTYPE) { prev = i; }
 	}
 	*success = true;
 	/* TODO: Insert codes to evaluate the expression. */
