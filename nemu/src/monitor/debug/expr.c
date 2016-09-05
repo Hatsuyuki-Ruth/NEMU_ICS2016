@@ -225,7 +225,7 @@ int eval(int p, int q) {
 			case OR: return eval(p, op - 1) || eval(op + 1, q);
 			case EQ: return eval(p, op - 1) == eval(op + 1, q);
 			case NEQ: return eval(p, op - 1) != eval(op + 1, q);
-			case NOT: return !eval(op + 1, q);
+			case NOT: return !eval(p + 1, q);
 		}
 	}
 	return 0;
