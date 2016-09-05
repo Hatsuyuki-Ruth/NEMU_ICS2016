@@ -33,9 +33,9 @@ static struct rule {
 	{"\\&\\&", AND},
 	{"\\|\\|", OR},
 	{"!", NOT},
-	{"[0-9]+", NUM},
 	{"$\\w{3}", REG},
-	{"0x([0-9] | [A-F] | [a-f])+", NUM16}
+	{"0x([0-9] | [A-F] | [a-f])+", NUM16},
+	{"[0-9]+", NUM}
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
