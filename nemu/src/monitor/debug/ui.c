@@ -53,7 +53,7 @@ static int cmd_info(char *args) {
 	if(*args == 'r') {
 		int i;
 		for (i = R_EAX; i <= R_EDI; i++) {
-			printf("The %d-th GPR: %d", i, reg_w(i));
+			printf("The %d-th GPR: %d\n", i, reg_w(i));
 		}
 	}
 	else { printf("Invalid argument.\n"); }
