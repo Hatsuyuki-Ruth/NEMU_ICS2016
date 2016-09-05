@@ -216,7 +216,7 @@ int eval(int p, int q) {
 				cur_level = op_level(tokens[pos].type);
 			}
 		}
-		//printf("OP: %d\n", op);
+		printf("OP: %d\n", op);
 		switch(tokens[op].type) {
 			case '+': return eval(p, op - 1) + eval(op + 1, q);
 			case '-': return eval(p, op - 1) - eval(op + 1, q);	
