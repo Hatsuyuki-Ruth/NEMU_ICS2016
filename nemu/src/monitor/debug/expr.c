@@ -227,7 +227,7 @@ int eval(int p, int q) {
 			case EQ: return eval(p, op - 1) == eval(op + 1, q);
 			case NEQ: return eval(p, op - 1) != eval(op + 1, q);
 			case NOT: return !eval(p + 1, q);
-			case DEREF: return *(hw_mem + eval(p + 1, q));
+			case DEREF: return swaddr_read(eval(p + 1, q), 4);
 		}
 	}
 	return 0;
