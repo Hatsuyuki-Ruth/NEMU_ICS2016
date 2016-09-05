@@ -41,12 +41,13 @@ static int cmd_help(char *args);
 static int cmd_si(char *args) {
 //	volatile int arg_len = strlen(args);
 	volatile int arg = 0;
-	printf("%s\n", args);
-	while(args != NULL) {
+//	printf("%s\n", args);
+	sscanf(args, "%d", &arg);
+	//while(args != NULL) {
 //		printf("%s\n", args);
-		arg = arg * 10 + (*args - '0');
-		args++;
-	}
+	//	arg = arg * 10 + (*args - '0');
+	//	args++;
+	//}
 	printf("%d\n", arg);
 	if(arg == 0) arg = 1;
 	cpu_exec(arg);
