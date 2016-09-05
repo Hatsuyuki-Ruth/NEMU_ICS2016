@@ -43,6 +43,7 @@ static int cmd_si(char *args) {
 	volatile int arg = 0;
 	while(args != NULL) {
 		arg = arg * 10 + (*args - '0');
+		args++;
 	}
 	if(arg == 0) arg = 1;
 	cpu_exec(arg);
