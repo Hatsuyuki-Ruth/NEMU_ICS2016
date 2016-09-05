@@ -40,6 +40,21 @@ static struct rule {
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
 
+int op_level(int type) {
+	switch(type) {
+		case OR: return 0;
+		case AND: return 1;
+		case EQ: return 2;
+		case NEQ: return 2; 
+		case '+': return 3;
+		case '-': return 3;
+		case MUL: return 4;
+		case DIV: return 4;
+		case NOT: return 5;
+	}
+	return NOTYPE;
+}
+
 static regex_t re[NR_REGEX];
 
 /* Rules are used for many times.
@@ -96,7 +111,6 @@ static bool make_token(char *e) {
 					case REG: strcpy(tokens[nr_token].str, e + position); break;
 					default: tokens[nr_token].str[0] = '\0';
 				}
-				printf("%s\n", e + position);
 				e[position + substr_len] = tmp;
 				tokens[nr_token].type = rules[i].token_type;
 				nr_token++;
@@ -110,16 +124,108 @@ static bool make_token(char *e) {
 			return false;
 		}
 	}
-	for(i = 0; i < nr_token; i++) {
-		printf("%d\n", tokens[i].type);
-		printf("%s\n", tokens[i].str);
-	}
+//	for(i = 0; i < nr_token; i++) {
+//		printf("%d\n", tokens[i].type);
+//		printf("%s\n", tokens[i].str);
+//	}
 	return true; 
 }
 
+int get_int(char *st) {
+	int res = 0;
+	while(st != '\0') {
+		res = res * 10 + (*st - '0');
+	}
+	return res;
+}
 
+int get_int16(char *st) {
+	int res = 0;
+	while(st != '\0') {
+		int tmp = 0;
+		if('0' <= *st && *st <= '9') tmp = *st - '0';
+		else if('a' <= *st && *st <= 'f') tmp = *st - 'a' + 10;
+		else tmp = *st - 'A' + 10;
+		res = res * 10 + tmp;
+	}
+	return res;
+}
 
-uint32_t expr(char *e, bool *success) {
+int get_reg(char *st) {
+	if(strcmp(st, "eax") == 0) return reg_l(0);
+	if(strcmp(st, "ecx") == 0) return reg_l(1);
+	if(strcmp(st, "edx") == 0) return reg_l(2);
+	if(strcmp(st, "ebx") == 0) return reg_l(3);
+	if(strcmp(st, "esp") == 0) return reg_l(4);
+	if(strcmp(st, "ebp") == 0) return reg_l(5);
+	if(strcmp(st, "esi") == 0) return reg_l(6);
+	if(strcmp(st, "edi") == 0) return reg_l(7);
+	if(strcmp(st, "ax") == 0) return reg_w(0);
+	if(strcmp(st, "cx") == 0) return reg_w(1);
+	if(strcmp(st, "dx") == 0) return reg_w(2);
+	if(strcmp(st, "bx") == 0) return reg_w(3);
+	if(strcmp(st, "sp") == 0) return reg_w(4);
+	if(strcmp(st, "bp") == 0) return reg_w(5);
+	if(strcmp(st, "si") == 0) return reg_w(6);
+	if(strcmp(st, "di") == 0) return reg_w(7);
+	if(strcmp(st, "al") == 0) return reg_b(0);
+	if(strcmp(st, "ah") == 0) return reg_b(4);
+	if(strcmp(st, "cl") == 0) return reg_b(1);
+	if(strcmp(st, "ch") == 0) return reg_b(5);
+	if(strcmp(st, "dl") == 0) return reg_b(2);
+	if(strcmp(st, "dh") == 0) return reg_b(6);
+	if(strcmp(st, "bl") == 0) return reg_b(3);
+	if(strcmp(st, "bh") == 0) return reg_b(7);
+	return 0;
+}
+
+int check_parentheses(int p, int q) {
+	return tokens[p].type == LEFT_B && tokens[q].type == RIGHT_B;
+}
+
+int eval(int p, int q) {
+	if(p > q) { return 0; }
+	else if(p == q) {
+		if(tokens[p].type == NUM) return get_int(tokens[p].str);
+		else if(tokens[p].type == NUM16) return get_int16(tokens[p].str + 2);
+		else return get_reg(tokens[p].str + 1);
+	}
+	else if(check_parentheses(p, q) == true) {
+		return eval(p + 1, q - 1);
+	}
+	else{
+		int op = 0, pos, numb = 0, cur_level = NOTYPE;
+		for(pos = p; pos <= q; pos++) {
+			if(tokens[pos].type == LEFT_B) {
+				numb++;
+				continue;
+			}
+			else if(tokens[pos].type == RIGHT_B) {
+				numb--;
+				continue;
+			}
+			if(numb || tokens[pos].type == NUM || tokens[pos].type == NUM16 || tokens[pos].type == REG) continue;
+			if(cur_level >= op_level(tokens[pos].type)) {
+				op = pos;
+				cur_level = op_level(tokens[pos].type);
+			}
+		}
+		switch(tokens[pos].type) {
+			case '+': return eval(p, op - 1) + eval(op + 1, q);
+			case '-': return eval(p, op - 1) - eval(op + 1, q);	
+			case MUL: return eval(p, op - 1) * eval(op + 1, q);
+			case DIV: return eval(p, op - 1) / eval(op + 1, q);
+			case AND: return eval(p, op - 1) && eval(op + 1, q);
+			case OR: return eval(p, op - 1) || eval(op + 1, q);
+			case EQ: return eval(p, op - 1) == eval(op + 1, q);
+			case NEQ: return eval(p, op - 1) != eval(op + 1, q);
+			case NOT: return !eval(op + 1, q);
+		}
+	}
+	return 0;
+}
+
+int expr(char *e, bool *success) {
 	if(!make_token(e)) {
 		*success = false;
 		return 0;
@@ -127,5 +233,5 @@ uint32_t expr(char *e, bool *success) {
 
 	/* TODO: Insert codes to evaluate the expression. */
 	//panic("please implement me");
-	return 0;
+	return eval(0, nr_token - 1);
 }
