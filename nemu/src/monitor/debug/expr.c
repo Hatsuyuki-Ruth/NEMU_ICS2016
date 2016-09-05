@@ -189,7 +189,7 @@ int check_parentheses(int p, int q) {
 int eval(int p, int q) {
 	while(p < q && tokens[p].type == NOTYPE) p++;
 	while(p < q && tokens[q].type == NOTYPE) q--;
-	printf("%d %d\n", p, q);
+	//printf("%d %d\n", p, q);
 	if(p > q) { return 0; }
 	else if(p == q) {
 		if(tokens[p].type == NUM) return get_int(tokens[p].str);
@@ -216,7 +216,7 @@ int eval(int p, int q) {
 				cur_level = op_level(tokens[pos].type);
 			}
 		}
-		printf("OP: %d\n", op);
+		//printf("OP: %d\n", op);
 		switch(tokens[op].type) {
 			case '+': return eval(p, op - 1) + eval(op + 1, q);
 			case '-': return eval(p, op - 1) - eval(op + 1, q);	
