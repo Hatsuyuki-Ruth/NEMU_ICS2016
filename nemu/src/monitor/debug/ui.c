@@ -45,6 +45,7 @@ static int cmd_si(char *args) {
 		arg = arg * 10 + (*args - '0');
 		args++;
 	}
+	printf("%d\n", arg);
 	if(arg == 0) arg = 1;
 	cpu_exec(arg);
 	return 0;
