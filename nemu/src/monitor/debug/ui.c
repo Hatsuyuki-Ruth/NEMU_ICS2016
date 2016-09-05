@@ -41,8 +41,9 @@ static int cmd_help(char *args);
 static int cmd_si(char *args) {
 //	volatile int arg_len = strlen(args);
 	volatile int arg = 0;
+	printf("%s\n", args);
 	while(args != NULL) {
-		printf("%s\n", args);
+//		printf("%s\n", args);
 		arg = arg * 10 + (*args - '0');
 		args++;
 	}
