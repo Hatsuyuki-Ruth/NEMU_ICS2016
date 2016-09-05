@@ -42,9 +42,8 @@ static int cmd_si(char *args) {
 //	volatile int arg_len = strlen(args);
 	int arg = 0;
 //	printf("%s\n", args);
-	int num_get = sscanf(args, "%d", &arg);
-//	printf("%d\n", arg);
-	if(!num_get) { arg = 1; }
+	if(strlen(args)) { sscanf(args, "%d", &arg); }
+	else { arg = 1; }
 	cpu_exec(arg);
 	return 0;
 }
