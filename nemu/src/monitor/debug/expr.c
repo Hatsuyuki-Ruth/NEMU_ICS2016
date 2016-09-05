@@ -138,6 +138,7 @@ int get_int(char *st) {
 		res = res * 10 + (*st - '0');
 		st++;
 	}
+	printf("%d\n", res);
 	return res;
 }
 
