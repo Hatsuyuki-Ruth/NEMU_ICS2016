@@ -62,8 +62,44 @@ static int cmd_info(char *args) {
 
 static int cmd_p(char *args) {
 	bool successful;
-	printf("Result: %d\n", expr(args, &successful));
+	int res = expr(args, &successful);
+	if(!successful) {
+		printf("Invalid expression.\n");
+		return 0;
+	}
+	printf("Result: %d\n", res);
 	return 0; 
+}
+
+static int cmd_x(char *args) {
+	int num = 0;
+	if(args == NULL) {
+		printf("Please specify an argument.\n");
+		return 0;
+	}	
+	while(*args != '\0' && *args != ' ') {
+		if(*args < '0' || *args > '9') {
+			printf("Invalid argument.\n");
+			return 0;
+		}
+		num = num * 10 + (*args - '0');
+		args++;
+	}
+	if(num == 0) {
+		printf("Invalid argument.\n");
+		return 0;
+	}
+	if(*args == '\0') { printf("Please specify an expression.\n"); }
+	while(*args == ' ') args++;
+	bool successful;
+	int res = expr(args, &successful);
+	if(!successful) {
+		printf("Invalid expression.\n");
+		return 0;
+	}
+	printf("%d\n", res);
+	return 0;
+	
 }
 
 static struct {
@@ -76,7 +112,8 @@ static struct {
 	{ "q", "Exit NEMU", cmd_q },
 	{ "si", "Run several steps", cmd_si },
 	{ "info", "Print some freaking awesome information about the program", cmd_info },
-	{ "p", "Evaluate an expression", cmd_p }
+	{ "p", "Evaluate an expression", cmd_p },
+	{ "x", "Print the contents of the RAM", cmd_x }
 	/* TODO: Add more commands */
 
 };
