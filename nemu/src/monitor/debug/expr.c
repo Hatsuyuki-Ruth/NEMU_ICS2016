@@ -93,7 +93,8 @@ static bool make_token(char *e) {
 				switch(rules[i].token_type) {
 					case NUM: strcpy(tokens[nr_token].str, e + position); break;
 					case NUM16: strcpy(tokens[nr_token].str, e + position); break;
-					case REG: strcpy(tokens[nr_token].str, e + position);
+					case REG: strcpy(tokens[nr_token].str, e + position); break;
+					default: tokens[nr_token].str[0] = '\0';
 				}
 				printf("%s\n", e + position);
 				e[position + substr_len] = tmp;
