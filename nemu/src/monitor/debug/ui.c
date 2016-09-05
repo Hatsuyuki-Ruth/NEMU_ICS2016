@@ -101,7 +101,7 @@ static int cmd_x(char *args) {
 	for(i = res; i < res + num * 4;i += 4) {
 		printf("Addr %d: %d\n", i, swaddr_read(i, 4));
 	}
-	printf("%d %d\n", res, num);
+	//printf("%d %d\n", res, num);
 	return 0;
 	
 }
