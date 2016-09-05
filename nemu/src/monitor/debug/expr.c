@@ -133,6 +133,7 @@ static bool make_token(char *e) {
 
 int get_int(char *st) {
 	int res = 0;
+	printf("%s\n", st);
 	while(st != '\0') {
 		res = res * 10 + (*st - '0');
 		st++;
