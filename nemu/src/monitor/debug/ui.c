@@ -42,7 +42,7 @@ static int cmd_si(char *args) {
 //	volatile int arg_len = strlen(args);
 	volatile int arg = 0;
 	while(args != NULL) {
-		printf("%d\n", *args);
+		//printf("%d\n", *args);
 		arg = arg * 10 + (*args - '0');
 		args++;
 	}
