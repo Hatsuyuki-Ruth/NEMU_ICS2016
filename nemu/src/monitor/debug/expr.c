@@ -7,7 +7,7 @@
 #include <regex.h>
 
 enum {
-	NOTYPE = 256, EQ, DIV, MUL, LEFT_B, RIGHT_B, NEQ, AND, OR, NOT, NUM, NUM16, REG
+	NOTYPE = 256, EQ, DIV, MUL, LEFT_B, RIGHT_B, NEQ, AND, OR, NOT, NUM, NUM16, REG, DEREF
 	/* TODO: Add more token types */
 
 };
@@ -51,6 +51,7 @@ int op_level(int type) {
 		case MUL: return 4;
 		case DIV: return 4;
 		case NOT: return 5;
+		case DEREF: return 6;
 	}
 	return NOTYPE;
 }
@@ -93,10 +94,10 @@ static bool make_token(char *e) {
 		/* Try all rules one by one. */
 		for(i = 0; i < NR_REGEX; i ++) {
 			if(regexec(&re[i], e + position, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0) {
-				char *substr_start = e + position;
+				//char *substr_start = e + position;
 				int substr_len = pmatch.rm_eo;
 
-				Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s", i, rules[i].regex, position, substr_len, substr_len, substr_start);
+				//Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s", i, rules[i].regex, position, substr_len, substr_len, substr_start);
 				//position += substr_len;
 
 				/* TODO: Now a new token is recognized with rules[i]. Add codes
@@ -188,7 +189,7 @@ int check_parentheses(int p, int q) {
 int eval(int p, int q) {
 	while(p < q && tokens[p].type == NOTYPE) p++;
 	while(p < q && tokens[q].type == NOTYPE) q--;
-	printf("%d %d\n", p, q);
+//	printf("%d %d\n", p, q);
 	if(p > q) { return 0; }
 	else if(p == q) {
 		if(tokens[p].type == NUM) return get_int(tokens[p].str);
@@ -226,6 +227,7 @@ int eval(int p, int q) {
 			case EQ: return eval(p, op - 1) == eval(op + 1, q);
 			case NEQ: return eval(p, op - 1) != eval(op + 1, q);
 			case NOT: return !eval(p + 1, q);
+			case DEREF: return *(hw_mem + eval(p + 1, q));
 		}
 	}
 	return 0;
@@ -236,7 +238,10 @@ int expr(char *e, bool *success) {
 		*success = false;
 		return 0;
 	}
-
+	int i;
+	for(i = 0; i < nr_token; i++) {
+		if(tokens[i].type == MUL && (i == 0 || (tokens[i - 1].type == NUM || tokens[i - 1].type == NUM16 || tokens[i].type == REG))) tokens[i].type = DEREF;
+	}
 	/* TODO: Insert codes to evaluate the expression. */
 	//panic("please implement me");
 	return eval(0, nr_token - 1);
