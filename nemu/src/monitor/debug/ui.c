@@ -72,7 +72,7 @@ static int cmd_p(char *args) {
 }
 
 static int cmd_x(char *args) {
-	int num = 0;
+	uint32_t num = 0;
 	if(args == NULL) {
 		printf("Please specify an argument.\n");
 		return 0;
@@ -97,7 +97,11 @@ static int cmd_x(char *args) {
 		printf("Invalid expression.\n");
 		return 0;
 	}
-	printf("%d\n", res);
+	uint32_t i = res;
+	for(i = res; i < res + num * 4;i += 4) {
+		printf("Addr %d: %d\n", i, swaddr_read(i, 4));
+	}
+	printf("%d %d\n", res, num);
 	return 0;
 	
 }
