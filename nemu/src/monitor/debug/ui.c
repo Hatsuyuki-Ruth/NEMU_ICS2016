@@ -40,7 +40,7 @@ static int cmd_help(char *args);
 
 static int cmd_si(char *args) {
 //	volatile int arg_len = strlen(args);
-	volatile int arg = 0;
+	int arg = 0;
 //	printf("%s\n", args);
 	sscanf(args, "%d", &arg);
 	//while(args != NULL) {
@@ -49,7 +49,7 @@ static int cmd_si(char *args) {
 	//	args++;
 	//}
 	printf("%d\n", arg);
-	if(arg == 0) arg = 1;
+	if(arg == 0) { arg = 1; }
 	cpu_exec(arg);
 	return 0;
 }
