@@ -48,6 +48,18 @@ static int cmd_si(char *args) {
 	return 0;
 }
 
+static int cmd_info(char *args) {
+	if(args == NULL) printf("This command requires exactly one argument.\n");
+	if(*args == 'r') {
+		int i;
+		for (i = R_EAX; i <= R_EDI; i++) {
+			printf("The %d-th GPR: %d", i, reg_w(i));
+		}
+	}
+	else { printf("Invalid argument.\n"); }
+	return 0;
+}
+
 static struct {
 	char *name;
 	char *description;
@@ -56,7 +68,8 @@ static struct {
 	{ "help", "Display informations about all supported commands", cmd_help },
 	{ "c", "Continue the execution of the program", cmd_c },
 	{ "q", "Exit NEMU", cmd_q },
-	{ "si", "Run several steps", cmd_si }
+	{ "si", "Run several steps", cmd_si },
+	{ "info", "Print some freaking awesome information about the program", cmd_info }
 	/* TODO: Add more commands */
 
 };
