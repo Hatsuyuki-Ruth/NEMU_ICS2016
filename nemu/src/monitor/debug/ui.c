@@ -99,7 +99,7 @@ static int cmd_x(char *args) {
 	}
 	uint32_t i = res;
 	for(i = res; i < res + num * 4;i += 4) {
-		printf("Addr %d: %d\n", i, swaddr_read(i, 4));
+		printf("Addr 0x%x: 0x%x\n", i, swaddr_read(i, 4));
 	}
 	//printf("%d %d\n", res, num);
 	return 0;
