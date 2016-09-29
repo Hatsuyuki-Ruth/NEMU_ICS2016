@@ -53,10 +53,10 @@ static int cmd_info(char *args) {
 	if(*args == 'r') {
 		int i;
 		for (i = R_EAX; i <= R_EDI; i++) {
-			printf("The %d-th GPR: %d %8x\n", i, reg_l(i), reg_l(i));
+			printf("The %d-th GPR: %d 0x%08x\n", i, reg_l(i), reg_l(i));
 		}
-		printf("$eip = %d %8x\n", cpu.eip, cpu.eip);
-		printf("$EFLAGS = %d %8x\n", cpu.EFLAGS, cpu.EFLAGS);
+		printf("$eip = %d 0x%08x\n", cpu.eip, cpu.eip);
+		printf("$EFLAGS = %d 0x%08x\n", cpu.EFLAGS, cpu.EFLAGS);
 	}
 	else if(*args == 'w') {
 		traverse();
