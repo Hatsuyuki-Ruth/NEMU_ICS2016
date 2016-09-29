@@ -56,6 +56,7 @@ static int cmd_info(char *args) {
 			printf("The %d-th GPR: %d\n", i, reg_l(i));
 		}
 		printf("$eip = %d\n", cpu.eip);
+		printf("$EFLAGS = %d\n", cpu.EFLAGS);
 	}
 	else if(*args == 'w') {
 		traverse();
