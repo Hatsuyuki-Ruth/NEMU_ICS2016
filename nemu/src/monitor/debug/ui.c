@@ -55,6 +55,10 @@ static int cmd_info(char *args) {
 		for (i = R_EAX; i <= R_EDI; i++) {
 			printf("The %d-th GPR: %d\n", i, reg_l(i));
 		}
+		printf("$eip = %d\n", cpu.eip);
+	}
+	else if(*args == 'w') {
+		traverse();
 	}
 	else { printf("Invalid argument.\n"); }
 	return 0;
@@ -89,7 +93,10 @@ static int cmd_x(char *args) {
 		printf("Invalid argument.\n");
 		return 0;
 	}
-	if(*args == '\0') { printf("Please specify an expression.\n"); }
+	if(*args == '\0') {
+		printf("Please specify an expression.\n");
+		return 0;
+	}
 	while(*args == ' ') args++;
 	bool successful;
 	int res = expr(args, &successful);
@@ -106,6 +113,28 @@ static int cmd_x(char *args) {
 	
 }
 
+static int cmd_w(char *args) {
+	bool successful;
+	int init_val = expr(args, &successful);
+	if(!successful) {
+		printf("Invalid expression.\n");
+		return 0;
+	}
+	new_wp(args, init_val);
+	return 0;
+}
+
+static int cmd_d(char *args) {
+	int num = 0;
+	if(args) { sscanf(args, "%d", &num); }
+	else {
+		printf("One argument required.\n");
+		return 0;
+	}
+	free_wp(num);
+	return 0;
+}
+
 static struct {
 	char *name;
 	char *description;
@@ -117,7 +146,9 @@ static struct {
 	{ "si", "Run several steps", cmd_si },
 	{ "info", "Print some freaking awesome information about the program", cmd_info },
 	{ "p", "Evaluate an expression", cmd_p },
-	{ "x", "Print the contents of the RAM", cmd_x }
+	{ "x", "Print the contents of the RAM", cmd_x },
+	{ "w", "Set a watchpoint", cmd_w },
+	{ "d", "Delete a watchpoint", cmd_d}
 	/* TODO: Add more commands */
 
 };
@@ -148,6 +179,7 @@ static int cmd_help(char *args) {
 }
 
 void ui_mainloop() {
+	init_wp_pool();
 	while(1) {
 		char *str = rl_gets();
 		char *str_end = str + strlen(str);
@@ -180,3 +212,4 @@ void ui_mainloop() {
 		if(i == NR_CMD) { printf("Unknown command '%s'\n", cmd); }
 	}
 }
+

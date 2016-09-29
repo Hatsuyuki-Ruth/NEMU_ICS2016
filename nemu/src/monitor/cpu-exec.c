@@ -49,6 +49,7 @@ void cpu_exec(volatile uint32_t n) {
 	setjmp(jbuf);
 
 	for(; n > 0; n --) {
+		bool watch_point_flag = 0;
 #ifdef DEBUG
 		swaddr_t eip_temp = cpu.eip;
 		if((n & 0xffff) == 0) {
@@ -73,7 +74,12 @@ void cpu_exec(volatile uint32_t n) {
 #endif
 
 		/* TODO: check watchpoints here. */
-
+		watch_point_flag = check_watchpoints();
+		if(watch_point_flag) {
+			nemu_state = STOP;
+			watch_point_flag = 0;
+			//printf("Watchpoint triggered.\n");
+		}
 
 #ifdef HAS_DEVICE
 		extern void device_update();

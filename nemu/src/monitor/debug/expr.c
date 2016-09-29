@@ -179,6 +179,7 @@ int get_reg(char *st) {
 	if(strcmp(st, "dh") == 0) return reg_b(6);
 	if(strcmp(st, "bl") == 0) return reg_b(3);
 	if(strcmp(st, "bh") == 0) return reg_b(7);
+	if(strcmp(st, "eip") == 0) return cpu.eip;
 	return 0;
 }
 
