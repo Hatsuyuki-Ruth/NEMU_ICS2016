@@ -25,3 +25,6 @@
 #include "misc/misc.h"
 
 #include "special/special.h"
+
+#include "cmp/cmp.h"
+
