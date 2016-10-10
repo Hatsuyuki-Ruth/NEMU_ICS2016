@@ -7,8 +7,9 @@ make_helper(call_rm){
 	return 0;
 }
 
-make_helper(call_rel){
+make_helper(call_rel32){
 	int im = instr_fetch(eip + 1, 4);
+	printf("%x %x\n", im, cpu.eip);
 	cpu.esp -= 4;
 	swaddr_write(cpu.esp, 4, cpu.eip + 4);
 	cpu.eip = cpu.eip + im;
