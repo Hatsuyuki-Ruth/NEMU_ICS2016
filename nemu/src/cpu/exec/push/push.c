@@ -7,6 +7,6 @@
 #undef DATA_BYTE
 
 make_helper(push_r){
-	return push_r_w(eip);
+	return push_r_l(eip);
 }
 
