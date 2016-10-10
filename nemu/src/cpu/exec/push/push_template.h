@@ -6,7 +6,8 @@ make_helper(concat(push_r_, SUFFIX)){
 	int num_reg = instr_fetch(eip, 1) & 7;
 	cpu.esp -= DATA_BYTE;
 	swaddr_write(cpu.esp, DATA_BYTE, REG(num_reg));
-	printf("%d %d %d\n", num_reg, REG(num_reg), DATA_BYTE);
+	//printf("%d %d %d\n", num_reg, REG(num_reg), DATA_BYTE);
+	print_asm("push"str(SUFFIX)" %%%s", REG_NAME(num_reg));
 	return 1;
 }
 
