@@ -5,7 +5,7 @@
 #include "cpu/decode/decode.h"
 
 #define make_helper_v(name) \
-	make_helper(name) { \
+	make_helper(concat(name, _v)) { \
 		return (ops_decoded.is_operand_size_16 ? concat(name, _w) : concat(name, _l)) (eip); \
 	}
 
