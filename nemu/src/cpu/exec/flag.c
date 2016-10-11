@@ -29,5 +29,4 @@ void logical_flag(int src1, int src2, int des, int msbdes) {
 	update_PF(des);
 }
 
-#include "cpu/exec/template-end.h"
 
