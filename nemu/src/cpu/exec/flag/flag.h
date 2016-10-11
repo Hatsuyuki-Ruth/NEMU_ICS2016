@@ -22,8 +22,8 @@ void update_PF(int des) {
 }
 
 void update_CF(int src1, int src2, int des, int op) {
-	//cpu.CF = (MSB(src1) & MSB(src2)) | ((MSB(src1) | MSB(src2)) & (`MSB(des)));
-	//cpu.CF ^= op;
+	cpu.CF = (MSB(src1) & MSB(src2)) | ((MSB(src1) | MSB(src2)) & (~MSB(des)));
+	cpu.CF ^= op;
 }
 
 void logical_flag(int src1, int src2, int des) {
