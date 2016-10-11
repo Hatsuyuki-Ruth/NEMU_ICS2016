@@ -7,6 +7,7 @@
 #undef DATA_BYTE
 
 make_helper(push_r){
-	return push_r_l(eip);
+	if(ops_decoded.is_operand_size_16) return push_r_w(eip);
+	else return push_r_l(eip);
 }
 
