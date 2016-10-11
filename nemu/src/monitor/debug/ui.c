@@ -48,15 +48,25 @@ static int cmd_si(char *args) {
 	return 0;
 }
 
+#define DATA_BYTE 4
+#include "cpu/exec/template-start.h"
+
 static int cmd_info(char *args) {
 	if(args == NULL) printf("This command requires exactly one argument.\n");
 	if(*args == 'r') {
 		int i;
 		for (i = R_EAX; i <= R_EDI; i++) {
-			printf("The %d-th GPR: %d 0x%08x\n", i, reg_l(i), reg_l(i));
+			printf("%%%s: %d 0x%08x\n", REG_NAME(i), reg_l(i), reg_l(i));
 		}
 		printf("$eip = %d 0x%08x\n", cpu.eip, cpu.eip);
 		printf("$EFLAGS = %d 0x%08x\n", cpu.EFLAGS, cpu.EFLAGS);
+		printf("$CF = %d\n", cpu.CF);
+		printf("$PF = %d\n", cpu.PF);
+		printf("$ZF = %d\n", cpu.ZF);
+		printf("$SF = %d\n", cpu.SF);
+		printf("$IF = %d\n", cpu.IF);
+		printf("$DF = %d\n", cpu.DF);
+		printf("$OF = %d\n", cpu.OF);
 	}
 	else if(*args == 'w') {
 		traverse();
@@ -64,6 +74,9 @@ static int cmd_info(char *args) {
 	else { printf("Invalid argument.\n"); }
 	return 0;
 }
+
+#include "cpu/exec/template-end.h"
+#undef DATA_BYTE
 
 static int cmd_p(char *args) {
 	bool successful;
