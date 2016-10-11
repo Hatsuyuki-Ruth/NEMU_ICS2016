@@ -1,5 +1,4 @@
 #include "cpu/decode/modrm.h"
-#include "cpu/reg.h"
 #include "nemu.h"
 #include "cpu/helper.h"
 #include "cpu/exec/helper.h"
