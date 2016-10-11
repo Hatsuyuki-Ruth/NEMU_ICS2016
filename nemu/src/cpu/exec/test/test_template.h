@@ -25,7 +25,7 @@ make_helper(concat(test_r2rm_, SUFFIX)) {
 		print_asm("test"str(SUFFIX)" %%%s, *0x%x", REG_NAME(mod.reg), addr);
 	}
 	res = test1 & test2;
-	printf("%d\n", res);
+	//printf("%d\n", res);
 	logical_flag(test1, test2, res);
 	return addr_len + 1;
 }
