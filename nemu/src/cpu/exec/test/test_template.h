@@ -1,6 +1,7 @@
 #include "cpu/exec/helper.h"
 #include "cpu/exec/template-start.h"
 #include "cpu/decode/modrm.h"
+#include "../flag/flag.h"
 
 make_helper(concat(test_r2rm_, SUFFIX)) {
 	cpu.OF = 0;
@@ -25,6 +26,7 @@ make_helper(concat(test_r2rm_, SUFFIX)) {
 	}
 	res = test1 & test2;
 	printf("%d\n", res);
+	logical_flag(test1, test2, res);
 	return addr_len + 1;
 }
 
