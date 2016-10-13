@@ -11,7 +11,7 @@
 make_helper_v(movsx_rm2r)
 
 static void do_movsx_b(){
-	uint32_t res = (op_src->val << 16) >> 16;
+	uint32_t res = ((int)(op_src->val << 16)) >> 16;
 	write_operand_l(op_dest, res);
 	print_asm_template2();
 }

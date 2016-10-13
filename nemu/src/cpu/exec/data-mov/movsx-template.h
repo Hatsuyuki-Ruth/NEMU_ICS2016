@@ -4,8 +4,8 @@
 
 static void do_execute(){
 	DATA_TYPE res;
-	if(DATA_BYTE == 2) res = (op_src->val << 8) >> 8;
-	else res = (op_src->val << 24) >> 24;
+	if(DATA_BYTE == 2) res = ((int16_t)(op_src->val << 8)) >> 8;
+	else res = ((int)(op_src->val << 24)) >> 24;
 	OPERAND_W(op_dest, res);
 	print_asm_template2();
 }
