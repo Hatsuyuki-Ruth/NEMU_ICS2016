@@ -37,5 +37,7 @@
 #include "test/test.h"
 
 #include "jmp/je.h"
+#include "jmp/jmp.h"
+
 #include "ret/ret.h"
 
