@@ -2,7 +2,6 @@
 #include "jb.h"
 #include "jbe.h"
 #include "je.h"
-/*
 #include "js.h"
 #include "jae.h"
 #include "jg.h"
@@ -15,4 +14,4 @@
 #include "jle.h"
 #include "jnp.h"
 #include "jns.h"
-*/
+
