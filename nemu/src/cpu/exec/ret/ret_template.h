@@ -5,10 +5,10 @@
 #define instr ret
 
 make_helper(concat(ret_n_, SUFFIX)){
-	cpu.eip = MEM_R(REG(R_ESP));
+	cpu.eip = MEM_R(reg_l(R_ESP));
 	//printf("%x\n", cpu.eip);
 	if(DATA_BYTE == 2) cpu.eip &= 0xffff;
-	REG(R_ESP) += DATA_BYTE;
+	reg_l(R_ESP) += DATA_BYTE;
 	print_asm("ret");
 	return 1;
 }
