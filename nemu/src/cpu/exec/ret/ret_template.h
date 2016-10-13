@@ -25,3 +25,4 @@ make_helper(concat(ret_i_, SUFFIX)){
 #undef instr
 
 #include "cpu/exec/template-end.h"
+
