@@ -9,7 +9,7 @@ static void do_execute() {
 	DATA_TYPE res = op_dest->val - op_src->val;
 	cpu.CF = op_dest->val < op_src->val;
 	OPERAND_W(op_dest, res);
-	arith_flag(op_dest->val, MSB(op_dest->val), op_src->val, MSB(op_src->val), res, MSB(res));
+	arith_flag(op_dest->val, MSB(op_dest->val), ~op_src->val, MSB(~op_src->val), res, MSB(res));
 	print_asm_template2();
 }
 
