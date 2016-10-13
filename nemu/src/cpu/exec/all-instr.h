@@ -24,6 +24,8 @@
 #include "logic/shr.h"
 #include "logic/shrd.h"
 
+#include "set/setcc.h"
+
 #include "string/rep.h"
 
 #include "misc/misc.h"
