@@ -20,5 +20,7 @@ make_instr_helper(rm2r)
 make_instr_helper(si2rm)
 #endif
 
+#undef instr
+
 #include "cpu/exec/template-end.h"
 

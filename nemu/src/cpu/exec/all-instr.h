@@ -29,6 +29,7 @@
 #include "cmp/cmp.h"
 #include "call/call.h"
 #include "push/push.h"
+#include "pop/pop.h"
 #include "test/test.h"
 
 #include "jmp/je.h"
