@@ -1,15 +1,24 @@
-#include "cpu/exec/helper.h"
 #include "cpu/exec/template-start.h"
-#include "cpu/decode/modrm.h"
+#include "cpu/exec/helper.h"
+#include "cpu/helper.h"
 
-make_helper(concat(push_r_, SUFFIX)){
-	int num_reg = instr_fetch(eip, 1) & 7;
-	cpu.esp -= DATA_BYTE;
-	swaddr_write(cpu.esp, DATA_BYTE, REG(num_reg));
-	//printf("%d %d %d\n", num_reg, REG(num_reg), DATA_BYTE);
-	print_asm("push"str(SUFFIX)" %%%s", REG_NAME(num_reg));
-	return 1;
+#define instr push
+
+static void do_execute(){
+	if(DATA_BYTE == 1) op_src->val = (int8_t)op_src->val;
+	cpu.esp -= 4;
+	swaddr_write(cpu.esp, 4, op_src->val);
+	print_asm_template1();
 }
 
+make_instr_helper(i)
+
+#if DATA_BYTE == 2 || DATA_BYTE == 4
+make_instr_helper(r)
+make_instr_helper(rm)
+#endif
+
+#undef instr
+
 #include "cpu/exec/template-end.h"
-	
+
