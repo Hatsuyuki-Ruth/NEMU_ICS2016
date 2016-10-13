@@ -36,8 +36,8 @@
 #include "pop/pop.h"
 #include "test/test.h"
 
-#include "jmp/je.h"
 #include "jmp/jmp.h"
+#include "jmp/jcc.h"
 
 #include "ret/ret.h"
 
