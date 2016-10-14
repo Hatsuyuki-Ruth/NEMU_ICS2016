@@ -3,7 +3,9 @@
 #define instr stos
 
 static void do_execute(){
+	printf("%x\n", reg_l(R_EDI));
 	swaddr_write(reg_l(R_EAX), DATA_BYTE, swaddr_read(reg_l(R_EDI), DATA_BYTE));
+	printf("OK\n");
 	if(cpu.DF == 0){
 		reg_l(R_EDI) += DATA_BYTE;
 	}
