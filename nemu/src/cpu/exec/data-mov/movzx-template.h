@@ -3,7 +3,7 @@
 #define instr movzx
 
 static void do_execute(){
-	DATA_TYPE res = op_src->val & 0xffff;
+	DATA_TYPE res = op_src->val & 0xff;
 	OPERAND_W(op_dest, res);
 	print_asm_template2();
 }
