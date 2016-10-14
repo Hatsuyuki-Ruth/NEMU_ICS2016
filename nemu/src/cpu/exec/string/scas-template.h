@@ -7,7 +7,7 @@ static void do_execute(){
 	DATA_TYPE dest = swaddr_read(reg_l(R_EDI), DATA_BYTE);
 	DATA_TYPE src = REG(R_EAX);
 	DATA_TYPE res = src - dest;
-	printf("%d %d", src, dest);
+//	printf("%d %d", src, dest);
 	cpu.CF = src < dest;
 	arith_flag(src, MSB(src), (~dest) + 1, MSB((~dest) + 1), res, MSB(res));
 //	printf("%x\n", cpu.edi);
