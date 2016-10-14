@@ -48,3 +48,8 @@
 #include "ret/ret.h"
 #include "leave/leave.h"
 
+#include "string/lods.h"
+#include "string/movs.h"
+#include "string/stos.h"
+#include "string/scas.h"
+
