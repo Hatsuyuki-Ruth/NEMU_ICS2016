@@ -4,14 +4,14 @@
 
 static void do_execute(){
 	REG(R_EAX) = swaddr_read(reg_l(R_ESI), DATA_BYTE);
-	printf("%x\n", cpu.esi);
+//	printf("%x\n", cpu.esi);
 	if(cpu.DF == 0){
 		reg_l(R_ESI) += DATA_BYTE;
 	}
 	else{
 		reg_l(R_ESI) -= DATA_BYTE;
 	}
-	printf("%x\n", cpu.esi);
+//	printf("%x\n", cpu.esi);
 	print_asm("lods");
 }
 
