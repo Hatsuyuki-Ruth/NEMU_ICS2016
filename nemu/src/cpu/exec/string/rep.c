@@ -27,7 +27,7 @@ make_helper(rep) {
 			if(ops_decoded.opcode == 0xae
 				|| ops_decoded.opcode == 0xaf
 				){
-					if(cpu.ZF == 0) break;
+					if(cpu.ZF) break;
 				}
 			/* TODO: Jump out of the while loop if necessary. */
 
