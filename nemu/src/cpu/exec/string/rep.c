@@ -24,7 +24,11 @@ make_helper(rep) {
 				|| ops_decoded.opcode == 0xae	// scasb
 				|| ops_decoded.opcode == 0xaf	// scasw
 				);
-
+			if(ops_decoded.opcode == 0xae
+				|| ops_decoded.opcode == 0xaf
+				){
+					if(cpu.ZF == 0) break;
+				}
 			/* TODO: Jump out of the while loop if necessary. */
 
 		}
