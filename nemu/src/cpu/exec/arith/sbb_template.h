@@ -12,7 +12,7 @@ static void do_execute(){
 
 	cpu.CF = op_dest->val < src;
 	OPERAND_W(op_dest, result);
-	arith_flag(op_dest->val, MSB(op_dest->val), ~src, MSB(~src), result, MSB(result));
+	arith_flag(op_dest->val, MSB(op_dest->val), (~src) + 1, MSB((~src) + 1), result, MSB(result));
 	print_asm_template2();
 }
 
