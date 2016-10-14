@@ -4,7 +4,7 @@
 
 static void do_execute(){
 //	printf("%x\n", reg_l(R_EDI));
-	REG(R_EAX) = swaddr_read(reg_l(R_EDI), DATA_BYTE);
+	swaddr_write(reg_l(R_EDI), DATA_BYTE, REG(R_EAX));
 //	printf("OK\n");
 	if(cpu.DF == 0){
 		reg_l(R_EDI) += DATA_BYTE;
