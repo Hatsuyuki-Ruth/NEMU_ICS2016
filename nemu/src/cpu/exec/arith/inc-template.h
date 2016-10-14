@@ -1,4 +1,5 @@
 #include "cpu/exec/template-start.h"
+#include "../flag.h"
 
 #define instr inc
 
@@ -7,8 +8,9 @@ static void do_execute () {
 	OPERAND_W(op_src, result);
 
 	/* TODO: Update EFLAGS. */
-	panic("please implement me");
-
+//	panic("please implement me");
+	cpu.CF = result == 0;
+	arith_flag(op_src->val, MSB(op_src->val), 1, 0, result, MSB(result));
 	print_asm_template1();
 }
 
