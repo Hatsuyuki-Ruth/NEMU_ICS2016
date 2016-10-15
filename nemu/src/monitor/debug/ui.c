@@ -164,7 +164,7 @@ static int cmd_bt(char *args) {
 	StackFrame cur;
 	swaddr_t addr = reg_l(R_EBP);
 	cur.ret_addr = cpu.eip;
-	while(1){
+	while(addr){
 		printf("#%d: 0x%08x in ", count, cur.ret_addr);
 		count++;
 		for(i = 0;i < nr_symtab_entry;i++){
@@ -174,10 +174,6 @@ static int cmd_bt(char *args) {
 				break;
 		}
 		printf("%s(", strtab + symtab[i].st_name);
-		if(addr == 0){
-			printf(" )\n");
-			break;
-		}
 		for(i = 0;i < 4;i++) printf(" %d", swaddr_read(addr + 8 + 4 * i, 4));
 		printf(" )\n");
 		cur.prev_ebp = swaddr_read(addr, 4);
