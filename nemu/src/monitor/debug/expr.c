@@ -44,7 +44,7 @@ static struct rule {
 	{"\\$\\w{2,3}", REG},
 	{"0[xX][0-9A-Fa-f]+", NUM16},
 	{"[0-9]+", NUM},
-	{"\\b[a-zA-Z0-9_]+", VAL}
+	{"[a-zA-Z_][a-zA-Z0-9_]+", VAL}
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -211,7 +211,7 @@ int eval(int p, int q) {
 	while(p < q && tokens[p].type == NOTYPE) p++;
 	while(p < q && tokens[q].type == NOTYPE) q--;
 	//printf("%d %d\n", p, q);
-	if(p > q) { return 0; }
+	if(p > q) { assert(0); }
 	else if(p == q) {
 		if(tokens[p].type == NUM) return get_int(tokens[p].str);
 		else if(tokens[p].type == NUM16) return get_int16(tokens[p].str + 2);
