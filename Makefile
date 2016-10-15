@@ -17,8 +17,7 @@ LIBC := $(LIBC_LIB_DIR)/libc.a
 include config/Makefile.git
 include config/Makefile.build
 
-all: nemu
-
+all: nemu float
 
 ##### rules for building the project #####
 
@@ -29,6 +28,7 @@ include kernel/Makefile.part
 include game/Makefile.part
 
 nemu: $(nemu_BIN)
+float: $(FLOAT)
 testcase: $(testcase_BIN)
 kernel: $(kernel_BIN)
 game: $(game_BIN)
