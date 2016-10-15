@@ -2,19 +2,18 @@
 
 FLOAT_O := $(FLOAT:.a=.o)
 FLOAT_VFPRINTF_O := $(dir $(FLOAT))FLOAT_vfprintf.o
+INC = lib-common
+FLOAT_A_OBJ := $(FLOAT_O)
 
-FLOAT_A_OBJ := $(FLOAT_O) $(FLOAT_VFPRINTF_O)
-
-LOCAL_CFLAGS := -c -m32 -fno-builtin -fno-stack-protector -msoft-float -mno-sse
-
-#$(FLOAT): $(FLOAT_A_OBJ)
-#	ar r $@ $^
+$(FLOAT): $(FLOAT_A_OBJ)
+	ar r $@ $^
 
 # TODO: complete the following rules
 
-$(FLOAT) : $(LIB_COMMON_DIR)/FLOAT.a : $(LIB_COMMON_DIR)/FLOAT.c
-	@mkdir -p obj/$(LIB_COMMON_DIR)
-	$(call make_command, $(CC), $(LOCAL_CFLAGS), cc $<, $^)
+$(FLOAT_O): lib-common/FLOAT/FLOAT.c lib-common/FLOAT.h
+	mkdir -p obj/lib-common/FLOAT
+	gcc -c -m32 -O2 -fno-builtin lib-common/FLOAT/FLOAT.c -I $(INC) -o obj/lib-common/FLOAT/FLOAT.o 
 
-#$(FLOAT_VFPRINTF_O):
+$(FLOAT_VFPRINTF_O): lib-common/FLOAT/FLOAT_vfprintf.c lib-common/FLOAT.h
+	gcc -c -m32 -O2 -fno-builtin lib-common/FLOAT/FLOAT_vfprintf.c -I $(INC) -o obj/lib-common/FLOAT/FLOAT_vfprintf.o 
 

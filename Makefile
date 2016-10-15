@@ -12,12 +12,12 @@ LIB_COMMON_DIR := lib-common
 LIBC_INC_DIR := $(LIB_COMMON_DIR)/uclibc/include
 LIBC_LIB_DIR := $(LIB_COMMON_DIR)/uclibc/lib
 LIBC := $(LIBC_LIB_DIR)/libc.a
-#FLOAT := obj/$(LIB_COMMON_DIR)/FLOAT/FLOAT.a
+FLOAT := obj/$(LIB_COMMON_DIR)/FLOAT/FLOAT.a
 
 include config/Makefile.git
 include config/Makefile.build
 
-all: nemu float
+all: nemu
 
 ##### rules for building the project #####
 
@@ -28,7 +28,7 @@ include kernel/Makefile.part
 include game/Makefile.part
 
 nemu: $(nemu_BIN)
-float: $(FLOAT)
+#float: $(FLOAT)
 testcase: $(testcase_BIN)
 kernel: $(kernel_BIN)
 game: $(game_BIN)
