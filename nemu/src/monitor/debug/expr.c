@@ -1,3 +1,4 @@
+#include "common.h"
 #include "nemu.h"
 
 /* We use the POSIX regex functions to process regular expressions.
@@ -5,6 +6,13 @@
  */
 #include <sys/types.h>
 #include <regex.h>
+#include <elf.h>
+
+//void load_elf_tables(int, char *[]);
+
+extern char *strtab;
+extern Elf32_Sym *symtab;
+extern int nr_symtab_entry;
 
 enum {
 	NOTYPE = 256, EQ, DIV, MUL, LEFT_B, RIGHT_B, NEQ, AND, OR, NOT, NUM, NUM16, REG, DEREF, VAL
@@ -111,6 +119,7 @@ static bool make_token(char *e) {
 					case NUM: strcpy(tokens[nr_token].str, e + position); break;
 					case NUM16: strcpy(tokens[nr_token].str, e + position); break;
 					case REG: strcpy(tokens[nr_token].str, e + position); break;
+					case VAL: strcpy(tokens[nr_token].str, e + position); break;
 					default: tokens[nr_token].str[0] = '\0';
 				}
 				e[position + substr_len] = tmp;
@@ -185,6 +194,12 @@ int get_reg(char *st) {
 }
 
 int get_val(char *st){
+	int i;
+	for(i = 0;i < nr_symtab_entry;i++){
+		if((symtab[i].st_info & 0xf) == STT_OBJECT
+		&& strcmp(strtab + symtab[i].st_name, st) == 0)
+			return symtab[i].st_value;
+	}
 	return 0;
 }
 

@@ -4,9 +4,9 @@
 
 char *exec_file = NULL;
 
-static char *strtab = NULL;
-static Elf32_Sym *symtab = NULL;
-static int nr_symtab_entry;
+char *strtab = NULL;
+Elf32_Sym *symtab = NULL;
+int nr_symtab_entry = 0;
 
 void load_elf_tables(int argc, char *argv[]) {
 	int ret;
@@ -79,9 +79,10 @@ void load_elf_tables(int argc, char *argv[]) {
 	assert(strtab != NULL && symtab != NULL);
 	
 	fclose(fp);
-
+/*
 	for(i = 0;i < nr_symtab_entry;i++){
 		printf("%x %s\n", symtab[i].st_info, strtab + symtab[i].st_name);
 	}
+*/
 }
 
