@@ -6,8 +6,18 @@
 #include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <elf.h>
+
+extern char *strtab;
+extern Elf32_Sym *symtab;
+extern int nr_symtab_entry;
 
 void cpu_exec(uint32_t);
+
+typedef struct{
+	swaddr_t prev_ebp;
+	swaddr_t ret_addr;
+}StackFrame;
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 char* rl_gets() {
@@ -149,6 +159,25 @@ static int cmd_d(char *args) {
 	return 0;
 }
 
+static int cmd_bt(char *args) {
+	int i, count = 0;
+	StackFrame cur;
+	swaddr_t addr = reg_l(R_EBP);
+	cur.ret_addr = cpu.eip;
+	while(addr > 0){
+		printf("#%d: 0x%08x in ", count, cur.ret_addr);
+		for(i = 0;i < nr_symtab_entry;i++){
+			if(symtab[i].st_value <= cur.ret_addr
+			&& cur.ret_addr <= symtab[i].st_value + symtab[i].st_size
+			&& (symtab[i].st_info & 0xf) == STT_FUNC)
+				break;
+		}
+		printf("%s", strtab + symtab[i].st_name);
+		
+	}
+	return 0;
+}
+
 static struct {
 	char *name;
 	char *description;
@@ -162,7 +191,8 @@ static struct {
 	{ "p", "Evaluate an expression", cmd_p },
 	{ "x", "Print the contents of the RAM", cmd_x },
 	{ "w", "Set a watchpoint", cmd_w },
-	{ "d", "Delete a watchpoint", cmd_d}
+	{ "d", "Delete a watchpoint", cmd_d},
+	{ "bt", "Print the stack", cmd_bt}
 	/* TODO: Add more commands */
 
 };
