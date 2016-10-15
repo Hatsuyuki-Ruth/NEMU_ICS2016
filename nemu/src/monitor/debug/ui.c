@@ -173,7 +173,9 @@ static int cmd_bt(char *args) {
 				break;
 		}
 		printf("%s", strtab + symtab[i].st_name);
-		
+		cur.prev_ebp = swaddr_read(addr, 4);
+		cur.ret_addr = swaddr_read(addr + 4, 4);
+		addr = cur.prev_ebp;	
 	}
 	return 0;
 }
