@@ -7,7 +7,7 @@
 #include <regex.h>
 
 enum {
-	NOTYPE = 256, EQ, DIV, MUL, LEFT_B, RIGHT_B, NEQ, AND, OR, NOT, NUM, NUM16, REG, DEREF
+	NOTYPE = 256, EQ, DIV, MUL, LEFT_B, RIGHT_B, NEQ, AND, OR, NOT, NUM, NUM16, REG, DEREF, VAL
 	/* TODO: Add more token types */
 
 };
@@ -35,7 +35,8 @@ static struct rule {
 	{"!", NOT},
 	{"\\$\\w{2,3}", REG},
 	{"0[xX][0-9A-Fa-f]+", NUM16},
-	{"[0-9]+", NUM}
+	{"[0-9]+", NUM},
+	{"\\b[a-zA-Z0-9_]+", VAL}
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -183,6 +184,10 @@ int get_reg(char *st) {
 	return 0;
 }
 
+int get_val(char *st){
+	return 0;
+}
+
 int check_parentheses(int p, int q) {
 	return tokens[p].type == LEFT_B && tokens[q].type == RIGHT_B;
 }
@@ -195,7 +200,8 @@ int eval(int p, int q) {
 	else if(p == q) {
 		if(tokens[p].type == NUM) return get_int(tokens[p].str);
 		else if(tokens[p].type == NUM16) return get_int16(tokens[p].str + 2);
-		else return get_reg(tokens[p].str + 1);
+		else if(tokens[p].type == REG) return get_reg(tokens[p].str + 1);
+		else return get_val(tokens[p].str);
 	}
 	else if(check_parentheses(p, q) == true) {
 		return eval(p + 1, q - 1);
