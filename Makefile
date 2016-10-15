@@ -1,7 +1,5 @@
 ##### global settings #####
 
-USERPROG := obj/testcase/add
-
 .PHONY: nemu entry testcase kernel run gdb test submit clean
 
 CC := gcc
@@ -19,6 +17,7 @@ include config/Makefile.build
 
 all: nemu
 
+
 ##### rules for building the project #####
 
 include nemu/Makefile.part
@@ -28,7 +27,6 @@ include kernel/Makefile.part
 include game/Makefile.part
 
 nemu: $(nemu_BIN)
-#float: $(FLOAT)
 testcase: $(testcase_BIN)
 kernel: $(kernel_BIN)
 game: $(game_BIN)
@@ -54,6 +52,8 @@ clean: clean-cpp
 
 
 ##### some convinient rules #####
+
+USERPROG := obj/testcase/integral
 ENTRY := $(USERPROG)
 
 entry: $(ENTRY)
