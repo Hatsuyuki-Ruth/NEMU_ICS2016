@@ -40,7 +40,6 @@ FLOAT f2F(float a) {
 	 * performing arithmetic operations on it directly?
 	 */
 
-	nemu_assert(0);
 	return 0;
 }
 
