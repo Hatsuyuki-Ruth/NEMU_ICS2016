@@ -17,7 +17,6 @@ include config/Makefile.build
 
 all: nemu
 
-
 ##### rules for building the project #####
 
 include nemu/Makefile.part
@@ -53,7 +52,7 @@ clean: clean-cpp
 
 ##### some convinient rules #####
 
-USERPROG := obj/testcase/integral
+USERPROG := obj/testcase/quadratic-eq
 ENTRY := $(USERPROG)
 
 entry: $(ENTRY)
