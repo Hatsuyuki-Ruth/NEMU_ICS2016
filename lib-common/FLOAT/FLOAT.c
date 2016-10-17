@@ -22,9 +22,11 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 	 * It is OK not to use the template above, but you should figure
 	 * out another way to perform the division.
 	 */
-
-	nemu_assert(0);
-	return 0;
+	long long big_a = (long long)(a) << 16;
+	int edx_a = big_a >> 32, eax_a = big_a & 0xffffffff;
+	asm volatile("idiv %2": "=a"(eax_a), "=d"(edx_a): "r"(b), "a"(eax_a), "d"(edx_a));
+	printf("%f\n", (float)(edx_a >> 16));
+	return eax_a;
 }
 
 FLOAT f2F(float a) {
@@ -43,7 +45,8 @@ FLOAT f2F(float a) {
 }
 
 FLOAT Fabs(FLOAT a) {
-	nemu_assert(0);
+	FLOAT b;
+	b = (a < 0) ? (-a) : a;
 	return 0;
 }
 
