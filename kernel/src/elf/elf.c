@@ -74,7 +74,7 @@ uint32_t loader() {
 		}
 		ph += elf->e_phentsize;
 		if(ph->p_type) break;
-		break;
+		nemu_assert(0);
 	}
 
 	volatile uint32_t entry = elf->e_entry;
