@@ -12,9 +12,9 @@ make_helper(concat(call_rm_, SUFFIX)){
 	printf("%x\n", im);
 	cpu.esp -= DATA_BYTE;
 	swaddr_write(cpu.esp, DATA_BYTE, cpu.eip + DATA_BYTE);
-	cpu.eip += op_src->val;
-	print_asm("call 0x%x", cpu.eip + im + DATA_BYTE + 1);
-	return DATA_BYTE + 1;
+	cpu.eip = op_src->val;
+	print_asm("call 0x%x", cpu.eip);
+	return 0;
 }
 
 make_helper(concat(call_i_, SUFFIX)){
