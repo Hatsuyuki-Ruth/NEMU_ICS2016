@@ -67,9 +67,9 @@ uint32_t loader() {
 
 #ifdef IA32_PAGE
 			/* Record the program break for future use. */
-			extern uint32_t cur_brk, max_brk;
-			uint32_t new_brk = ph->p_vaddr + ph->p_memsz - 1;
-			if(cur_brk < new_brk) { max_brk = cur_brk = new_brk; }
+			//extern uint32_t cur_brk, max_brk;
+			//uint32_t new_brk = ph->p_vaddr + ph->p_memsz - 1;
+			//if(cur_brk < new_brk) { max_brk = cur_brk = new_brk; }
 #endif
 		}
 		ph += elf->e_phentsize;
