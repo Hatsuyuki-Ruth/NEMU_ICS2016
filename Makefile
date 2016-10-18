@@ -1,6 +1,6 @@
 ##### global settings #####
 
-USERPROG := obj/testcase/matrix-mul
+#USERPROG := obj/testcase/matrix-mul
 
 .PHONY: nemu entry testcase kernel run gdb test submit clean
 
@@ -54,7 +54,7 @@ clean: clean-cpp
 
 ##### some convinient rules #####
 
-#USERPROG := obj/testcase/quadratic-eq
+USERPROG := obj/testcase/quadratic-eq
 ENTRY := $(USERPROG)
 
 entry: $(ENTRY)
