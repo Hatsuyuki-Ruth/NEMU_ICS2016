@@ -39,7 +39,7 @@ uint32_t loader() {
 	//panic("please implement me");
 	//while(1);
 	int i;
-	ph = (void *)(buf + elf->e_phoff);
+	ph = (Elf32_Phdr *)(buf + elf->e_phoff);
 	//nemu_assert(elf->e_phnum == 2);
 	//nemu_assert(0);
 	for(i = 0; i < elf->e_phnum; ++i) {
