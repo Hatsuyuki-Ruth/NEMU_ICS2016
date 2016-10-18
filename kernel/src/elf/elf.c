@@ -72,8 +72,9 @@ uint32_t loader() {
 			//if(cur_brk < new_brk) { max_brk = cur_brk = new_brk; }
 #endif
 		}
-		ph++;
 		nemu_assert((int)(ph) < 0x8000000);
+		ph++;
+		//nemu_assert((int)(ph) < 0x8000000);
 		//ph += elf->e_phentsize;
 		//if(ph->p_type) break;
 		//nemu_assert(0);
