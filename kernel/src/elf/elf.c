@@ -37,16 +37,21 @@ uint32_t loader() {
 
 	/* Load each program segment */
 	//panic("please implement me");
-	while(1);
-	for(; true; ) {
+	//while(1);
+	int i;
+	ph = (void *)(buf + elf->e_phoff);
+	for(i = 0; i < elf->e_phnum; ++i) {
 		/* Scan the program header table, load each segment into memory */
 		if(ph->p_type == PT_LOAD) {
 
 			/* TODO: read the content of the segment from the ELF file 
 			 * to the memory region [VirtAddr, VirtAddr + FileSiz)
 			 */
-			 
-			 
+#ifdef HAS_DEVICE
+			ide_read((uint8_t*)ph->p_vaddr, ph->p_offset, ph->p_filesz);
+#else
+			ramdisk_read((uint8_t*)ph->p_vaddr, ph->p_offset, ph->p_filesz);
+#endif
 			/* TODO: zero the memory region 
 			 * [VirtAddr + FileSiz, VirtAddr + MemSiz)
 			 */
@@ -59,6 +64,7 @@ uint32_t loader() {
 			if(cur_brk < new_brk) { max_brk = cur_brk = new_brk; }
 #endif
 		}
+		ph++;
 	}
 
 	volatile uint32_t entry = elf->e_entry;
