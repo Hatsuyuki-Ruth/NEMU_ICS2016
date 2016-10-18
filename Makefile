@@ -1,6 +1,6 @@
 ##### global settings #####
 
-USERPROG := obj/testcase/bubble-sort
+USERPROG := obj/testcase/matrix-mul
 
 .PHONY: nemu entry testcase kernel run gdb test submit clean
 
