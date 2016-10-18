@@ -39,7 +39,17 @@ FLOAT f2F(float a) {
 	 * stack. How do you retrieve it to another variable without
 	 * performing arithmetic operations on it directly?
 	 */
-
+	FLOAT A = *(FLOAT *) &a;
+	FLOAT val = (A & 0x007fffff) | 0x00800000;
+	int power = ((A & 0x7f800000) >> 23) - 127;
+	if(power < 7){
+		if(A > 0) return val >> (7 - power);
+		else return -(val >> (7 - power));
+	}
+	else{
+		if(A > 0) return val << (power - 7);
+		else return -(val << (power - 7));
+	}
 	return 0;
 }
 
