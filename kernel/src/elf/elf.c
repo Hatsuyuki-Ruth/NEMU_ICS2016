@@ -73,7 +73,6 @@ uint32_t loader() {
 #endif
 		}
 		ph += elf->e_phentsize;
-		break;
 	}
 
 	volatile uint32_t entry = elf->e_entry;
