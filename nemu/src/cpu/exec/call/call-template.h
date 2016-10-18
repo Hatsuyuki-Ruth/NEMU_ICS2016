@@ -9,6 +9,7 @@
 
 make_helper(concat(call_i_, SUFFIX)){
 	int im = concat(decode_rm_, SUFFIX)(eip + 1);
+	printf("%x\n", im);
 	cpu.esp -= DATA_BYTE;
 	swaddr_write(cpu.esp, DATA_BYTE, cpu.eip + im);
 	cpu.eip += op_src->val;
