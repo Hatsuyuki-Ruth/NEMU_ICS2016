@@ -7,7 +7,7 @@
 
 #define instr call
 
-make_helper(concat(call_i_, SUFFIX)){
+make_helper(concat(call_rm_, SUFFIX)){
 	int im = concat(decode_rm_, SUFFIX)(eip + 1);
 	printf("%x\n", im);
 	cpu.esp -= DATA_BYTE;
@@ -17,7 +17,7 @@ make_helper(concat(call_i_, SUFFIX)){
 	return DATA_BYTE + 1;
 }
 
-make_helper(concat(call_rm_, SUFFIX)){
+make_helper(concat(call_i_, SUFFIX)){
 	int im = instr_fetch(eip + 1, DATA_BYTE);
 	printf("%x\n", im);
 	cpu.esp -= DATA_BYTE;
