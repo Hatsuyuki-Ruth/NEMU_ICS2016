@@ -41,6 +41,7 @@ uint32_t loader() {
 	int i;
 	ph = (void *)(buf + elf->e_phoff);
 	nemu_assert(elf->e_phnum == 2);
+	nemu_assert(0);
 	for(i = 0; i < elf->e_phnum; ++i) {
 		/* Scan the program header table, load each segment into memory */
 		if(ph->p_type == PT_LOAD) {
