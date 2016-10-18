@@ -72,9 +72,10 @@ uint32_t loader() {
 			//if(cur_brk < new_brk) { max_brk = cur_brk = new_brk; }
 #endif
 		}
-		ph += elf->e_phentsize;
-		if(ph->p_type) break;
-		nemu_assert(0);
+		ph++;
+		//ph += elf->e_phentsize;
+		//if(ph->p_type) break;
+		//nemu_assert(0);
 	}
 
 	volatile uint32_t entry = elf->e_entry;
