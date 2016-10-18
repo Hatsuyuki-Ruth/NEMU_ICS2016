@@ -73,6 +73,7 @@ uint32_t loader() {
 #endif
 		}
 		ph++;
+		nemu_assert((int)(ph) < 0x8000000);
 		//ph += elf->e_phentsize;
 		//if(ph->p_type) break;
 		//nemu_assert(0);
