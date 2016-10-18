@@ -53,7 +53,7 @@ uint32_t loader() {
 #ifdef HAS_DEVICE
 			ide_read((uint8_t*)ph->p_vaddr, ph->p_offset, ph->p_filesz);
 #else
-			//if(i == 0) ramdisk_read((uint8_t*)ph->p_vaddr, ph->p_offset, ph->p_filesz);
+			if(i == 0) ramdisk_read((uint8_t*)ph->p_vaddr, ph->p_offset, ph->p_filesz);
 #endif
 			//nemu_assert(0);
 			/* TODO: zero the memory region 
@@ -73,6 +73,7 @@ uint32_t loader() {
 #endif
 		}
 		ph += elf->e_phentsize;
+		break;
 	}
 
 	volatile uint32_t entry = elf->e_entry;
