@@ -54,7 +54,7 @@ uint32_t loader() {
 #ifdef HAS_DEVICE
 			ide_read((void*)(ph->p_vaddr), ph->p_offset, ph->p_filesz);
 #else
-			if(i == 0) ramdisk_read((void*)(ph->p_vaddr), ph->p_offset, ph->p_filesz);
+			ramdisk_read((void*)(ph->p_vaddr), ph->p_offset, ph->p_filesz);
 #endif
 			//nemu_assert(0);
 			/* TODO: zero the memory region 
