@@ -54,6 +54,7 @@ uint32_t loader() {
 #else
 			ramdisk_read((uint8_t*)ph->p_vaddr, ph->p_offset, ph->p_filesz);
 #endif
+			nemu_assert(0);
 			/* TODO: zero the memory region 
 			 * [VirtAddr + FileSiz, VirtAddr + MemSiz)
 			 */
