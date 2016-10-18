@@ -1,6 +1,6 @@
 ##### global settings #####
 
-#USERPROG := obj/testcase/matrix-mul
+USERPROG := obj/testcase/matrix-mul
 
 .PHONY: nemu entry testcase kernel run gdb test submit clean
 
@@ -54,8 +54,9 @@ clean: clean-cpp
 
 ##### some convinient rules #####
 
-USERPROG := obj/testcase/matrix-mul
-ENTRY := $(USERPROG)
+#USERPROG := obj/testcase/matrix-mul
+#ENTRY := $(USERPROG)
+ENTRY := $(kernel_BIN)
 
 entry: $(ENTRY)
 	objcopy -S -O binary $(ENTRY) entry
