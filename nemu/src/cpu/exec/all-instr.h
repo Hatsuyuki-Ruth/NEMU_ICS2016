@@ -27,6 +27,7 @@
 #include "logic/shl.h"
 #include "logic/shr.h"
 #include "logic/shrd.h"
+#include "logic/shld.h"
 
 #include "set/setcc.h"
 
