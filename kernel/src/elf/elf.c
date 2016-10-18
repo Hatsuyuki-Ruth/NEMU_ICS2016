@@ -36,7 +36,8 @@ uint32_t loader() {
 	nemu_assert(*p_magic == elf_magic);
 
 	/* Load each program segment */
-	panic("please implement me");
+	//panic("please implement me");
+	while(1);
 	for(; true; ) {
 		/* Scan the program header table, load each segment into memory */
 		if(ph->p_type == PT_LOAD) {
