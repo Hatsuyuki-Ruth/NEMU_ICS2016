@@ -44,6 +44,7 @@ uint32_t loader() {
 	//nemu_assert(0);
 	for(i = 0; i < elf->e_phnum; ++i) {
 		/* Scan the program header table, load each segment into memory */
+		ph = (void*)buf + elf->e_phoff + i * elf->e_phentsize;
 		if(ph->p_type == PT_LOAD) {
 			//nemu_assert(0);
 			/* TODO: read the content of the segment from the ELF file 
@@ -72,8 +73,10 @@ uint32_t loader() {
 			//if(cur_brk < new_brk) { max_brk = cur_brk = new_brk; }
 #endif
 		}
-		nemu_assert((int)(ph) < 0x8000000);
-		ph++;
+		//void *ph2 = ph;
+		//nemu_assert((int)(ph) < 0x8000000);
+		//ph++;
+		//nemu_assert((int)(ph - ph2) < 10);
 		//nemu_assert((int)(ph) < 0x8000000);
 		//ph += elf->e_phentsize;
 		//if(ph->p_type) break;
