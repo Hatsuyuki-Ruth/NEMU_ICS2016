@@ -1,5 +1,7 @@
 ##### global settings #####
 
+USERPROG := obj/testcase/integral
+
 .PHONY: nemu entry testcase kernel run gdb test submit clean
 
 CC := gcc
@@ -52,7 +54,7 @@ clean: clean-cpp
 
 ##### some convinient rules #####
 
-USERPROG := obj/testcase/quadratic-eq
+#USERPROG := obj/testcase/quadratic-eq
 ENTRY := $(USERPROG)
 
 entry: $(ENTRY)
