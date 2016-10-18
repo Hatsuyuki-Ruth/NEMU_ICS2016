@@ -1,19 +1,13 @@
-#include "cpu/decode/modrm.h"
-#include "cpu/reg.h"
-#include "nemu.h"
-#include "cpu/helper.h"
 #include "cpu/exec/helper.h"
 
-make_helper(call_rm){
-	return 0;
-}
+#define DATA_BYTE 2
+#include "call-template.h"
+#undef DATA_BYTE
 
-make_helper(call_rel32){
-	int im = instr_fetch(eip + 1, 4);
-	cpu.esp -= 4;
-	swaddr_write(cpu.esp, 4, cpu.eip + 4);
-	cpu.eip = cpu.eip + im;
-	print_asm("call 0x%x", eip + im + 5);
-	return 5;
-}
+#define DATA_BYTE 4
+#include "call-template.h"
+#undef DATA_BYTE
+
+make_helper_v(call_i)
+make_helper_v(call_rm)
 
