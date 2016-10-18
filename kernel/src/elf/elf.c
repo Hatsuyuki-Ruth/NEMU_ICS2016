@@ -39,7 +39,7 @@ uint32_t loader() {
 	//panic("please implement me");
 	//while(1);
 	int i;
-	ph = (Elf32_Phdr *)(buf + elf->e_phoff);
+	//ph = (Elf32_Phdr *)(buf + elf->e_phoff);
 	//nemu_assert(elf->e_phnum == 2);
 	//nemu_assert(0);
 	for(i = 0; i < elf->e_phnum; ++i) {
@@ -52,9 +52,9 @@ uint32_t loader() {
 			 */
 			//nemu_assert(ph->p_offset + ph->p_filesz < (1 << 27));
 #ifdef HAS_DEVICE
-			ide_read((void*)ph->p_vaddr, ph->p_offset, ph->p_filesz);
+			ide_read((void*)(ph->p_vaddr), ph->p_offset, ph->p_filesz);
 #else
-			if(i == 0) ramdisk_read((void*)ph->p_vaddr, ph->p_offset, ph->p_filesz);
+			if(i == 0) ramdisk_read((void*)(ph->p_vaddr), ph->p_offset, ph->p_filesz);
 #endif
 			//nemu_assert(0);
 			/* TODO: zero the memory region 
@@ -64,13 +64,14 @@ uint32_t loader() {
 			//ide_read((uint
 			//ramdisk_read((uint8_t*)ph->p_vaddr + ph->p_filesz, , 
 #else
+			memset((void*)(ph->p_vaddr) + ph->p_filesz, 0, ph->p_memsz - ph->p_filesz);
 #endif
 
 #ifdef IA32_PAGE
 			/* Record the program break for future use. */
-			//extern uint32_t cur_brk, max_brk;
-			//uint32_t new_brk = ph->p_vaddr + ph->p_memsz - 1;
-			//if(cur_brk < new_brk) { max_brk = cur_brk = new_brk; }
+			extern uint32_t cur_brk, max_brk;
+			uint32_t new_brk = ph->p_vaddr + ph->p_memsz - 1;
+			if(cur_brk < new_brk) { max_brk = cur_brk = new_brk; }
 #endif
 		}
 		//void *ph2 = ph;
