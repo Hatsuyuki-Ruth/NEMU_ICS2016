@@ -49,7 +49,7 @@ uint32_t loader() {
 			/* TODO: read the content of the segment from the ELF file 
 			 * to the memory region [VirtAddr, VirtAddr + FileSiz)
 			 */
-			nemu_assert(ph->p_vaddr < (1 << 27));
+			nemu_assert(ph->p_offset + ph->p_filesz < (1 << 27));
 #ifdef HAS_DEVICE
 			ide_read((uint8_t*)ph->p_vaddr, ph->p_offset, ph->p_filesz);
 #else
