@@ -11,7 +11,7 @@
 make_helper_v(movzx_rm2r)
 
 static void do_movzx_b(){
-	uint32_t res = op_src->val & 0xffffffff;
+	uint32_t res = op_src->val & 0xffff;
 	write_operand_l(op_dest, res);
 	print_asm_template2();
 }
