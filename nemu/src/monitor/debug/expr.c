@@ -44,7 +44,7 @@ static struct rule {
 	{"\\$\\w{2,3}", REG},
 	{"0[xX][0-9A-Fa-f]+", NUM16},
 	{"[0-9]+", NUM},
-	{"[a-zA-Z_][a-zA-Z0-9_]{0, 64}", VAL}
+	{"[a-zA-Z_][a-zA-Z0-9_]?", VAL}
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
