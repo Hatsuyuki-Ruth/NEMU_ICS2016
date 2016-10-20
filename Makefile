@@ -1,6 +1,6 @@
 ##### global settings #####
 
-USERPROG := obj/testcase/mov-c
+USERPROG := obj/testcase/print-FLOAT
 
 .PHONY: nemu entry testcase kernel run gdb test submit clean
 
