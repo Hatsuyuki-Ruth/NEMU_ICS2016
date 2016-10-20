@@ -40,10 +40,10 @@ uint32_t loader() {
 	//while(1);
 	int i;
 	//ph = (Elf32_Phdr *)(buf + elf->e_phoff);
-	nemu_assert(elf->e_phnum == 3);
+	nemu_assert(elf->e_phentsize == 32);
 	//nemu_assert(0);
 	for(i = 0; i < elf->e_phnum; ++i) {
-		nemu_assert(i < 3);
+		//nemu_assert(i < 3);
 		/* Scan the program header table, load each segment into memory */
 		ph = (void*)buf + elf->e_phoff + i * 32;
 		if(ph->p_type == PT_LOAD) {
