@@ -43,7 +43,7 @@ uint32_t loader() {
 	nemu_assert(elf->e_phnum == 3);
 	//nemu_assert(0);
 	for(i = 0; i < elf->e_phnum; ++i) {
-		nemu_assert(elf->e_phnum == 3);
+		nemu_assert(i < 3);
 		/* Scan the program header table, load each segment into memory */
 		ph = (void*)buf + elf->e_phoff + i * 32;
 		if(ph->p_type == PT_LOAD) {
