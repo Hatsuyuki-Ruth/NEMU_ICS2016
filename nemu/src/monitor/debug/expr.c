@@ -196,7 +196,7 @@ int get_reg(char *st) {
 int get_val(char *st){
 	int i;
 	for(i = 0;i < nr_symtab_entry;i++){
-		if((symtab[i].st_info & 0xff) == STT_OBJECT
+		if((symtab[i].st_info & 0xf) == STT_OBJECT
 		&& strcmp(strtab + symtab[i].st_name, st) == 0)
 			return symtab[i].st_value;
 	}
