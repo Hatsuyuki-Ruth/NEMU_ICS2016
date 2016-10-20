@@ -7,7 +7,7 @@
 char buf[128];
 
 int main() {
-	//init_FLOAT_vfprintf();
+	init_FLOAT_vfprintf();
 
 #ifdef LINUX_RT
 	printf("%f\n", FLOAT_ARG(0x00010000));
