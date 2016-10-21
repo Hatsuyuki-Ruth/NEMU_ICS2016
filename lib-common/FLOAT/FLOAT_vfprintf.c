@@ -2,6 +2,11 @@
 #include <stdint.h>
 #include "FLOAT.h"
 
+#if 1
+#include <sys/mman.h>
+#include <assert.h>
+#endif
+
 extern char _vfprintf_internal;
 extern char _fpmaxtostr;
 extern int __stdio_fwrite(char *buf, int len, FILE *stream);
@@ -16,8 +21,37 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 	 */
 
 	char buf[80];
-	int len = sprintf(buf, "0x%08x", f);
-	return __stdio_fwrite(buf, len, stream);
+	int flag = 0, i, j, k;
+	if(f < 0){
+		f = -f;
+		flag = 1;
+	}
+	int len, len2;
+	long long fdec = f & 0xffff;
+	int dec, div = 1;
+	int one = 0x10000;
+	len = sprintf(buf + 1, "%d", (int)(f >> 16));
+	buf[len + 1] = '.';
+	len++;
+	for(i = 0;i < 6;i++){
+		fdec *= 10;
+		for(j = 0;j < 10;j++){
+			if(fdec < one * (j + 1)){
+				buf[len + 1] = '0' + j;
+				len++;
+				dec = one * j;
+				fdec -= dec;
+				//printf("%d\n", fdec);
+				break;
+			} 
+		}
+	}
+	//len2 = sprintf(buf + len + 2, "%d", (int)(intf & 0xffffffff));
+	//len += len2 + 1;
+	buf[0] = '-';
+	//int len = sprintf(buf, "0x%08x", f);
+	if(flag) return __stdio_fwrite(buf, len + 1, stream);
+	else return __stdio_fwrite(buf + 1, len, stream);
 }
 
 static void modify_vfprintf() {
@@ -26,6 +60,23 @@ static void modify_vfprintf() {
 	 * is the code section in _vfprintf_internal() relative to the
 	 * hijack.
 	 */
+	//printf("%d\n", getpagesize());
+	//printf("%x\n", &_vfprintf_internal);
+	const int disp_from_vf = 774;
+	uint32_t p = (uint32_t)&_vfprintf_internal + disp_from_vf;
+#if 1
+	if(mprotect((void *)((p - 100) & 0xfffff000), 4096 * 2, PROT_READ | PROT_WRITE | PROT_EXEC)){
+		perror("");
+	}
+#endif
+	*(int*)(p + 1) += (int)(&format_FLOAT) - (int)(&_fpmaxtostr);
+	*(uint16_t*)(p - 0x22) = 0x3a8b;
+	*(uint16_t*)(p - 0x1e) = 0x3a8b;
+	*(uint8_t*)(p - 0xb) = 0x08;
+	*(uint8_t*)(p - 0xa) = 0x57;
+	*(uint16_t*)(p - 0x9) = 0x9090;
+	//printf("hhh\n");
+	//assert(0);
 
 #if 0
 	else if (ppfs->conv_num <= CONV_A) {  /* floating point */
