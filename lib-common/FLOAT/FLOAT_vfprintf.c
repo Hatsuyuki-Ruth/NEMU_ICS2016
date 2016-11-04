@@ -2,13 +2,14 @@
 #include <stdint.h>
 #include "FLOAT.h"
 
-#if 1
+#if 0
 #include <sys/mman.h>
 #include <assert.h>
 #endif
 
 extern char _vfprintf_internal;
 extern char _fpmaxtostr;
+extern char _ppfs_setargs;
 extern int __stdio_fwrite(char *buf, int len, FILE *stream);
 
 __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
@@ -64,7 +65,7 @@ static void modify_vfprintf() {
 	//printf("%x\n", &_vfprintf_internal);
 	const int disp_from_vf = 774;
 	uint32_t p = (uint32_t)&_vfprintf_internal + disp_from_vf;
-#if 1
+#if 0
 	if(mprotect((void *)((p - 100) & 0xfffff000), 4096 * 2, PROT_READ | PROT_WRITE | PROT_EXEC)){
 		perror("");
 	}
@@ -118,8 +119,8 @@ static void modify_vfprintf() {
 }
 
 static void modify_ppfs_setargs() {
-	//uint32_t func = (uint32_t)&ppfs_setargs + 0x74;
-	//*(uint16_t*) func = 0x2deb;
+	uint32_t func = (uint32_t)&_ppfs_setargs + 0x74;
+	*(uint16_t*) func = 0x2deb;
 	/* TODO: Implement this function to modify the action of preparing
 	 * "%f" arguments for _vfprintf_internal() in _ppfs_setargs().
 	 * Below is the code section in _vfprintf_internal() relative to
