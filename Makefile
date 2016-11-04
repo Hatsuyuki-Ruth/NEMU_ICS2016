@@ -1,6 +1,6 @@
 ##### global settings #####
 
-USERPROG := obj/testcase/hello
+USERPROG := obj/testcase/hello-str
 
 .PHONY: nemu entry testcase kernel run gdb test submit clean
 
