@@ -118,6 +118,8 @@ static void modify_vfprintf() {
 }
 
 static void modify_ppfs_setargs() {
+	uint32_t func = (uint32_t)&_ppfs_setargs + 0x74;
+	*(uint16_t*) p = 0x2deb;
 	/* TODO: Implement this function to modify the action of preparing
 	 * "%f" arguments for _vfprintf_internal() in _ppfs_setargs().
 	 * Below is the code section in _vfprintf_internal() relative to
