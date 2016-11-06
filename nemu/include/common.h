@@ -37,5 +37,5 @@ typedef union {
 
 #endif
 
-volatile static int dummy;
+/* volatile static int dummy = 0; */
 

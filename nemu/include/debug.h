@@ -37,4 +37,5 @@ extern FILE* log_fp;
 
 #endif
 
-volatile static int dummy;
+/* volatile static int dummy = 0; */
+
