@@ -44,13 +44,24 @@ void CACHE_ALLOC(uint32_t addr) {
 	uint32_t set_index = SET_INDEX(addr);
 	uint32_t block_index = (addr & ((1 << (CACHE_B)) - 1));
 	uint32_t addr_base = addr - block_index;
-	printf("Allocating: %x\n", addr_base);
+	//printf("Allocating: %x\n", addr_base);
 	for (i = 0; i < CACHE_LINE_NUM; i++) {
 		if (!CACHE_OBJ.sets[set_index].lines[i].valid || i == CACHE_LINE_NUM - 1) {
+			#ifdef CACHE_WRITEBACK
+				if (CACHE_OBJ.sets[set_index].lines[i].valid
+					&& CACHE_OBJ.sets[set_index].lines[i].dirty) {
+					for (j = 0; j < CACHE_BLOCK_SIZE; j++) {
+						CACHE_NEXT_LEVEL_WRITE(addr_base + j, CACHE_OBJ.sets[set_index].lines[i].data[j]);
+					}
+				}
+				CACHE_OBJ.sets[set_index].lines[i].dirty = 0;
+			#endif
 			CACHE_OBJ.sets[set_index].lines[i].valid = 1;
 			CACHE_OBJ.sets[set_index].lines[i].addr_t = (addr >> (ADDR_LEN - (CACHE_T)));
 			for(j = 0; j < CACHE_BLOCK_SIZE; j++) {
-				CACHE_OBJ.sets[set_index].lines[i].data[j] = (dram_read(addr_base + j, 1) & 0xffU);
+				uint8_t res;
+				CACHE_NEXT_LEVEL_READ(&res, addr_base + j);
+				CACHE_OBJ.sets[set_index].lines[i].data[j] = (res & 0xffU);
 				//printf("%x ", dram_read(addr_base + j, 1) & 0xff);
 			}
 			//printf("\n");
@@ -68,12 +79,12 @@ void CACHE_READ(uint8_t *result, uint32_t addr) {
 		if (CACHE_OBJ.sets[set_index].lines[i].valid &&
 		   (addr >> (ADDR_LEN - (CACHE_T))) == CACHE_OBJ.sets[set_index].lines[i].addr_t) {
 			*result = CACHE_OBJ.sets[set_index].lines[i].data[block_index];
-			puts("HIT");
+			//puts("HIT");
 			return;
 			//return 1;
 		}
 	}
-	puts("MISS");
+	//puts("MISS");
 	CACHE_ALLOC(addr);
 	for (i = 0; i < CACHE_LINE_NUM; i++) {
 		if (CACHE_OBJ.sets[set_index].lines[i].valid &&
@@ -94,6 +105,20 @@ void CACHE_WRITE(uint32_t addr, uint8_t datum) {
 		if (CACHE_OBJ.sets[set_index].lines[i].valid &&
 		   (addr >> (ADDR_LEN - (CACHE_T))) == CACHE_OBJ.sets[set_index].lines[i].addr_t) {
 			CACHE_OBJ.sets[set_index].lines[i].data[block_index] = datum;
+			return;
+		}
+	}
+}
+#else
+void CACHE_WRITE(uint32_t addr, uint8_t datum) {
+	int i;
+	uint32_t set_index = SET_INDEX(addr);
+	uint32_t block_index = (addr & ((1 << (CACHE_B)) - 1));
+	for (i = 0; i < CACHE_LINE_NUM; i++) {
+		if (CACHE_OBJ.sets[set_index].lines[i].valid &&
+		   (addr >> (ADDR_LEN - (CACHE_T))) == CACHE_OBJ.sets[set_index].lines[i].addr_t) {
+			CACHE_OBJ.sets[set_index].lines[i].data[block_index] = datum;
+			CACHE_OBJ.sets[set_index].lines[i].dirty = 1;
 			return;
 		}
 	}
