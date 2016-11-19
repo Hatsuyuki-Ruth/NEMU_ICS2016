@@ -14,7 +14,7 @@ void dram_write(hwaddr_t, size_t, uint32_t);
 
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 #ifdef USE_CACHE	
-	/* printf("%x\n", addr); */
+	printf("%x\n", addr);
 	uint32_t result = 0;
 	uint8_t tmp;
 	int j;
