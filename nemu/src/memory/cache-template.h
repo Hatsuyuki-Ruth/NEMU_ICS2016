@@ -47,7 +47,8 @@ bool CACHE_READ(uint32_t *result, uint32_t addr) {
 	uint32_t set_index = SET_INDEX(addr);
 	uint32_t block_index = (addr & ((1 << (CACHE_B)) - 1));
 	for (i = 0; i < CACHE_LINE_NUM; i++) {
-		if((addr >> (ADDR_LEN - (CACHE_T))) == CACHE_OBJ.sets[set_index].lines[i].addr_t){
+		if (CACHE_OBJ.sets[set_index].lines[i].valid &&
+		   (addr >> (ADDR_LEN - (CACHE_T))) == CACHE_OBJ.sets[set_index].lines[i].addr_t) {
 			*result = CACHE_OBJ.sets[set_index].lines[i].data[block_index];
 			return 1;
 		}
