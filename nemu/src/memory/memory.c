@@ -8,8 +8,10 @@ void dram_write(hwaddr_t, size_t, uint32_t);
 
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 	uint32_t result;
-	if(l1_read(&result, addr)) return result;
-	else return dram_read(addr, len) & (~0u >> ((4 - len) << 3));
+	l1_read(&result, addr);
+	return result;
+	//if(l1_read(&result, addr)) return result;
+	//else return dram_read(addr, len) & (~0u >> ((4 - len) << 3));
 }
 
 void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {

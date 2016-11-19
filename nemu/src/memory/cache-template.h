@@ -39,22 +39,45 @@ CACHE CACHE_OBJ;
 #define SET_INDEX(addr) (((((~0U) >> (ADDR_LEN - (CACHE_S))) << (CACHE_B)) & (addr)) >> CACHE_B)
 
 void CACHE_ALLOC(uint32_t addr) {
-
+	int i, j;
+	uint32_t set_index = SET_INDEX(addr);
+	uint32_t block_index = (addr & ((1 << (CACHE_B)) - 1));
+	uint32_t addr_base = addr - block_index;
+	for (i = 0; i < CACHE_LINE_NUM; i++) {
+		if (!CACHE_OBJ.sets[set_index].lines[i].valid || i == CACHE_LINE_NUM - 1) {
+			CACHE_OBJ.sets[set_index].lines[i].valid = 1;
+			CACHE_OBJ.sets[set_index].lines[i].addr_t = (addr >> (ADDR_LEN - (CACHE_T)));
+			for(j = 0; j < CACHE_BLOCK_SIZE; j++) {
+				CACHE_OBJ.sets[set_index].lines[i].data[j] = dram_read(addr_base + j, 1) & 0xff;
+			}
+		}
+	}
 }
 
-bool CACHE_READ(uint32_t *result, uint32_t addr) {
+void CACHE_READ(uint32_t *result, uint32_t addr) {
 	int i;
 	uint32_t set_index = SET_INDEX(addr);
 	uint32_t block_index = (addr & ((1 << (CACHE_B)) - 1));
+	printf("0x%x 0x%x 0x%x 0x%x\n", addr, (addr >> (ADDR_LEN - (CACHE_T))), set_index, block_index);
 	for (i = 0; i < CACHE_LINE_NUM; i++) {
 		if (CACHE_OBJ.sets[set_index].lines[i].valid &&
 		   (addr >> (ADDR_LEN - (CACHE_T))) == CACHE_OBJ.sets[set_index].lines[i].addr_t) {
 			*result = CACHE_OBJ.sets[set_index].lines[i].data[block_index];
-			return 1;
+			puts("HIT\n");
+			return;
+			//return 1;
 		}
 	}
-	printf("0x%x 0x%x 0x%x 0x%x\n", addr, (addr >> (ADDR_LEN - (CACHE_T))), set_index, block_index);
-	return 0;
+	puts("MISS\n");
+	CACHE_ALLOC(addr);
+	for (i = 0; i < CACHE_LINE_NUM; i++) {
+		if (CACHE_OBJ.sets[set_index].lines[i].valid &&
+		   (addr >> (ADDR_LEN - (CACHE_T))) == CACHE_OBJ.sets[set_index].lines[i].addr_t) {
+			*result = CACHE_OBJ.sets[set_index].lines[i].data[block_index];
+			return;
+		}
+	}
+	//return 0;
 }
 
 #undef ADDR_LEN
@@ -67,6 +90,8 @@ bool CACHE_READ(uint32_t *result, uint32_t addr) {
 #undef CACHE_SET
 #undef CACHE
 #undef CACHE_OBJ
+
 #undef CACHE_READ
+#undef CACHE_ALLOC
 
 #undef SET_INDEX
