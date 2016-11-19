@@ -3,8 +3,8 @@
 #include <stdio.h>
 
 #define CACHE_L 8
-#define CACHE_S 7
-#define CACHE_B 6
+#define CACHE_S 8
+#define CACHE_B 8
 #define CACHE_WRITETHROUGH
 #define CACHE_NAME l1
 
