@@ -19,7 +19,7 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 	uint8_t tmp;
 	int j;
 	for (j = len - 1; j >= 0; j--) {
-		l2_read(&tmp, addr + j);
+		l1_read(&tmp, addr + j);
 		result = result * 0x100U + tmp;
 		//printf("tmp: 0x%x\n", tmp);
 	}
