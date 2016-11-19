@@ -54,7 +54,7 @@ void CACHE_ALLOC(uint32_t addr) {
 	}
 }
 
-void CACHE_READ(uint32_t *result, uint32_t addr) {
+void CACHE_READ(uint8_t *result, uint32_t addr) {
 	int i;
 	uint32_t set_index = SET_INDEX(addr);
 	uint32_t block_index = (addr & ((1 << (CACHE_B)) - 1));

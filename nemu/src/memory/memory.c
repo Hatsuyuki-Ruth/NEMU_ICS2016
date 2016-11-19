@@ -7,8 +7,14 @@ void dram_write(hwaddr_t, size_t, uint32_t);
 /* Memory accessing interfaces */
 
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
-	uint32_t result;
-	l1_read(&result, addr);
+	uint32_t result = 0;
+	uint8_t tmp;
+	int j;
+	for (j = len - 1; j >= 0; j--) {
+		l1_read(&tmp, addr + len);
+		result = result * 0x100 + tmp;
+	}
+	printf("Cache result: 0x%x. DRAM result: 0x%x\n", result, dram_read(addr, len) & (~0u >> ((4 - len) << 3)));
 	return result;
 	//if(l1_read(&result, addr)) return result;
 	//else return dram_read(addr, len) & (~0u >> ((4 - len) << 3));
