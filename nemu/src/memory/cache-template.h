@@ -111,6 +111,7 @@ void CACHE_WRITE(uint32_t addr, uint8_t datum) {
 }
 #else
 void CACHE_WRITE(uint32_t addr, uint8_t datum) {
+	printf("Writing to 0x%x\n", addr);
 	int i;
 	uint32_t set_index = SET_INDEX(addr);
 	uint32_t block_index = (addr & ((1 << (CACHE_B)) - 1));
