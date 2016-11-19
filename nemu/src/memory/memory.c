@@ -22,7 +22,12 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 }
 
 void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
+	int j;
 	dram_write(addr, len, data);
+	for (j = 0; j < len; j++) {
+		l1_write(addr + j, data & 0xff);
+		data >>= 4;
+	}
 }
 
 uint32_t lnaddr_read(lnaddr_t addr, size_t len) {

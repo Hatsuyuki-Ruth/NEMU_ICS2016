@@ -15,6 +15,7 @@
 #define CACHE_OBJ concat(CACHE_NAME, _obj)
 #define CACHE_READ concat(CACHE_NAME, _read)
 #define CACHE_ALLOC concat(CACHE_NAME, _alloc)
+#define CACHE_WRITE concat(CACHE_NAME, _write)
 
 typedef struct{
 	uint8_t valid;
@@ -84,6 +85,21 @@ void CACHE_READ(uint8_t *result, uint32_t addr) {
 	//return 0;
 }
 
+#ifdef CACHE_WRITETHROUGH
+void CACHE_WRITE(uint32_t addr, uint8_t datum) {
+	int i;
+	uint32_t set_index = SET_INDEX(addr);
+	uint32_t block_index = (addr & ((1 << (CACHE_B)) - 1));
+	for (i = 0; i < CACHE_LINE_NUM; i++) {
+		if (CACHE_OBJ.sets[set_index].lines[i].valid &&
+		   (addr >> (ADDR_LEN - (CACHE_T))) == CACHE_OBJ.sets[set_index].lines[i].addr_t) {
+			CACHE_OBJ.sets[set_index].lines[i].data[block_index] = datum;
+			return;
+		}
+	}
+}
+#endif
+
 #undef ADDR_LEN
 #undef CACHE_T
 #undef CACHE_SET_NUM
@@ -97,5 +113,6 @@ void CACHE_READ(uint8_t *result, uint32_t addr) {
 
 #undef CACHE_READ
 #undef CACHE_ALLOC
+#undef CACHE_WRITE
 
 #undef SET_INDEX
