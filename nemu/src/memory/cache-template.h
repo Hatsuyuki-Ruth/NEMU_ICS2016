@@ -53,6 +53,7 @@ void CACHE_ALLOC(uint32_t addr) {
 				printf("%x ", dram_read(addr_base + j, 1) & 0xff);
 			}
 			printf("\n");
+			return;
 		}
 	}
 }
