@@ -4,6 +4,7 @@
 
 #ifdef USE_CACHE
 #include "cache.h"
+#include "assert.h"
 #endif
 
 uint32_t dram_read(hwaddr_t, size_t);
@@ -23,6 +24,7 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 		//printf("tmp: 0x%x\n", tmp);
 	}
 	/* printf("Addr: 0x%x. Len: %d. Cache result: 0x%x. DRAM result: 0x%x\n", addr, len, result, dram_read(addr, len) & (~0u >> ((4 - len) << 3)));*/
+	assert( result == (dram_read(addr, len) & (~0u >> ((4 - len) << 3))) );
 	return result;
 #else
 	return dram_read(addr, len) & (~0u >> ((4 - len) << 3));
