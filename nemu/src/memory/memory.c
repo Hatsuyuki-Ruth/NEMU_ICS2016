@@ -12,6 +12,7 @@ void dram_write(hwaddr_t, size_t, uint32_t);
 /* Memory accessing interfaces */
 
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
+	printf("%x\n", addr);
 	uint32_t result = 0;
 	uint8_t tmp;
 	int j;
