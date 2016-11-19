@@ -52,6 +52,7 @@ void CACHE_ALLOC(uint32_t addr) {
 				if (CACHE_OBJ.sets[set_index].lines[i].valid
 					&& CACHE_OBJ.sets[set_index].lines[i].dirty) {
 					#define CUR_ADDR (((CACHE_OBJ.sets[set_index].lines[i].addr_t) << (CACHE_S + (CACHE_B))) + ((set_index) << (CACHE_B)))
+					printf("%x\n", CUR_ADDR);
 					for (j = 0; j < CACHE_BLOCK_SIZE; j++) {
 						CACHE_NEXT_LEVEL_WRITE(CUR_ADDR + j, CACHE_OBJ.sets[set_index].lines[i].data[j]);
 					}
@@ -65,7 +66,7 @@ void CACHE_ALLOC(uint32_t addr) {
 			for(j = 0; j < CACHE_BLOCK_SIZE; j++) {
 				uint8_t res;
 				CACHE_NEXT_LEVEL_READ(&res, addr_base + j);
-				CACHE_OBJ.sets[set_index].lines[i].data[j] = (res & 0xffU);
+				CACHE_OBJ.sets[set_index].lines[i].data[j] = res;
 				/* printf("%x ", dram_read(addr_base + j, 1) & 0xff); */
 			}
 			//printf("\n");
@@ -115,7 +116,7 @@ void CACHE_WRITE(uint32_t addr, uint8_t datum) {
 }
 #else
 void CACHE_WRITE(uint32_t addr, uint8_t datum) {
-	printf("Writing to 0x%x\n", addr);
+	/* printf("Writing to 0x%x\n", addr); */
 	int i;
 	uint32_t set_index = SET_INDEX(addr);
 	uint32_t block_index = (addr & ((1 << (CACHE_B)) - 1));
