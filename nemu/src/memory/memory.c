@@ -20,7 +20,7 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 		result = result * 0x100U + tmp;
 		//printf("tmp: 0x%x\n", tmp);
 	}
-	//printf("Addr: 0x%x. Len: %d. Cache result: 0x%x. DRAM result: 0x%x\n", addr, len, result, dram_read(addr, len) & (~0u >> ((4 - len) << 3)));
+	printf("Addr: 0x%x. Len: %d. Cache result: 0x%x. DRAM result: 0x%x\n", addr, len, result, dram_read(addr, len) & (~0u >> ((4 - len) << 3)));
 	return result;
 	//if(l1_read(&result, addr)) return result;
 	//else return dram_read(addr, len) & (~0u >> ((4 - len) << 3));
