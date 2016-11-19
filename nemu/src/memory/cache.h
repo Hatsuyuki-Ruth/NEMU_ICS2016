@@ -15,7 +15,7 @@ void _dram_read(uint8_t *result, uint32_t addr){
 
 #define CACHE_L 16
 #define CACHE_S 12
-#define CACHE_B 12
+#define CACHE_B 6
 #define CACHE_WRITEBACK
 #define CACHE_NAME l2
 #define CACHE_NEXT_LEVEL_READ(result, addr) _dram_read((result), (addr))
@@ -36,8 +36,8 @@ void _dram_read(uint8_t *result, uint32_t addr){
 */
 
 #define CACHE_L 8
-#define CACHE_S 8
-#define CACHE_B 8
+#define CACHE_S 6
+#define CACHE_B 7
 #define CACHE_WRITETHROUGH
 #define CACHE_NAME l1
 #define CACHE_NEXT_LEVEL_READ(result, addr) l2_read((result), (addr))

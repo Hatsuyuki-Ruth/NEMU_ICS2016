@@ -30,15 +30,15 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 #else
 	return dram_read(addr, len) & (~0u >> ((4 - len) << 3));
 #endif
-	//if(l1_read(&result, addr)) return result;
-	//else return dram_read(addr, len) & (~0u >> ((4 - len) << 3));
+	/* if(l1_read(&result, addr)) return result; */
+	/* else return dram_read(addr, len) & (~0u >> ((4 - len) << 3)); */
 }
 
 void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 #ifdef USE_CACHE
 	int j;
 	uint32_t _data = data;
-	//dram_write(addr, len, data);
+	/* dram_write(addr, len, data); */
 	/* Update the L1 cache, because it is a write-through cache. */
 	for (j = 0; j < len; j++) {
 		l1_write(addr + j, data & 0xff);
