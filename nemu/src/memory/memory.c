@@ -1,5 +1,10 @@
 #include "common.h"
+
+#define USE_CACHE
+
+#ifdef USE_CACHE
 #include "cache.h"
+#endif
 
 uint32_t dram_read(hwaddr_t, size_t);
 void dram_write(hwaddr_t, size_t, uint32_t);
@@ -11,7 +16,7 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 	uint8_t tmp;
 	int j;
 	for (j = len - 1; j >= 0; j--) {
-		l1_read(&tmp, addr + j);
+		l2_read(&tmp, addr + j);
 		result = result * 0x100U + tmp;
 		//printf("tmp: 0x%x\n", tmp);
 	}
@@ -23,9 +28,9 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 
 void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 	int j;
-	dram_write(addr, len, data);
+	//dram_write(addr, len, data);
 	for (j = 0; j < len; j++) {
-		l1_write(addr + j, data & 0xff);
+		l2_write(addr + j, data & 0xff);
 		data >>= 8;
 	}
 }
