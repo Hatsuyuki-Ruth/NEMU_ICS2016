@@ -26,7 +26,7 @@ void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 	dram_write(addr, len, data);
 	for (j = 0; j < len; j++) {
 		l1_write(addr + j, data & 0xff);
-		data >>= 4;
+		data >>= 8;
 	}
 }
 
