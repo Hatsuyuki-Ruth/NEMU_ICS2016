@@ -47,6 +47,7 @@ void CACHE_ALLOC(uint32_t addr) {
 	//printf("Allocating: %x\n", addr_base);
 	for (i = 0; i < CACHE_LINE_NUM; i++) {
 		if (!CACHE_OBJ.sets[set_index].lines[i].valid || i == CACHE_LINE_NUM - 1) {
+			/*
 			#ifdef CACHE_WRITEBACK
 				if (CACHE_OBJ.sets[set_index].lines[i].valid
 					&& CACHE_OBJ.sets[set_index].lines[i].dirty) {
@@ -56,6 +57,7 @@ void CACHE_ALLOC(uint32_t addr) {
 				}
 				CACHE_OBJ.sets[set_index].lines[i].dirty = 0;
 			#endif
+			*/
 			CACHE_OBJ.sets[set_index].lines[i].valid = 1;
 			CACHE_OBJ.sets[set_index].lines[i].addr_t = (addr >> (ADDR_LEN - (CACHE_T)));
 			for(j = 0; j < CACHE_BLOCK_SIZE; j++) {
