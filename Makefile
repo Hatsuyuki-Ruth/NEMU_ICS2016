@@ -1,6 +1,6 @@
 ##### global settings #####
 
-USERPROG := obj/testcase/matrix-mul
+USERPROG := obj/testcase/matrix-mul-small
 
 .PHONY: nemu entry testcase kernel run gdb test submit clean
 
