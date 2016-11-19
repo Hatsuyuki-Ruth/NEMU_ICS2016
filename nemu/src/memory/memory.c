@@ -12,7 +12,8 @@ void dram_write(hwaddr_t, size_t, uint32_t);
 /* Memory accessing interfaces */
 
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
-	printf("%x\n", addr);
+#ifdef USE_CACHE	
+	/* printf("%x\n", addr); */
 	uint32_t result = 0;
 	uint8_t tmp;
 	int j;
@@ -21,16 +22,21 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 		result = result * 0x100U + tmp;
 		//printf("tmp: 0x%x\n", tmp);
 	}
-	printf("Addr: 0x%x. Len: %d. Cache result: 0x%x. DRAM result: 0x%x\n", addr, len, result, dram_read(addr, len) & (~0u >> ((4 - len) << 3)));
+	/* printf("Addr: 0x%x. Len: %d. Cache result: 0x%x. DRAM result: 0x%x\n", addr, len, result, dram_read(addr, len) & (~0u >> ((4 - len) << 3)));*/
 	return result;
+#else
+	return dram_read(addr, len) & (~0u >> ((4 - len) << 3));
+#endif
 	//if(l1_read(&result, addr)) return result;
 	//else return dram_read(addr, len) & (~0u >> ((4 - len) << 3));
 }
 
 void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
+#ifdef USE_CACHE
 	int j;
 	uint32_t _data = data;
-	dram_write(addr, len, data);
+	/* dram_write(addr, len, data);*/
+	/* Update the L1 cache, because it is a write-through cache. */
 	for (j = 0; j < len; j++) {
 		l1_write(addr + j, data & 0xff);
 		data >>= 8;
@@ -39,6 +45,10 @@ void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 		l2_write(addr + j, _data & 0xff);
 		_data >>= 8;
 	}
+#else
+	dram_write(addr, len, data);
+#endif	
+	/* No need to update DRAM, because the L2 cache is a write-back cache. */
 }
 
 uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
