@@ -50,7 +50,9 @@ void CACHE_ALLOC(uint32_t addr) {
 			CACHE_OBJ.sets[set_index].lines[i].addr_t = (addr >> (ADDR_LEN - (CACHE_T)));
 			for(j = 0; j < CACHE_BLOCK_SIZE; j++) {
 				CACHE_OBJ.sets[set_index].lines[i].data[j] = dram_read(addr_base + j, 1) & 0xff;
+				printf("%x ", dram_read(addr_base + j, 1) & 0xff);
 			}
+			printf("\n");
 		}
 	}
 }
