@@ -1,6 +1,6 @@
 ##### global settings #####
 
-USERPROG := obj/testcase/hello-str
+USERPROG := obj/testcase/matrix-mul
 
 .PHONY: nemu entry testcase kernel run gdb test submit clean
 
@@ -31,7 +31,6 @@ nemu: $(nemu_BIN)
 testcase: $(testcase_BIN)
 kernel: $(kernel_BIN)
 game: $(game_BIN)
-
 
 ##### rules for cleaning the project #####
 
