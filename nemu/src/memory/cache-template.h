@@ -44,13 +44,13 @@ void CACHE_ALLOC(uint32_t addr) {
 	uint32_t set_index = SET_INDEX(addr);
 	uint32_t block_index = (addr & ((1 << (CACHE_B)) - 1));
 	uint32_t addr_base = addr - block_index;
-	//printf("Allocating: %x\n", addr_base);
+	printf("Allocating: %x\n", addr_base);
 	for (i = 0; i < CACHE_LINE_NUM; i++) {
 		if (!CACHE_OBJ.sets[set_index].lines[i].valid || i == CACHE_LINE_NUM - 1) {
 			CACHE_OBJ.sets[set_index].lines[i].valid = 1;
 			CACHE_OBJ.sets[set_index].lines[i].addr_t = (addr >> (ADDR_LEN - (CACHE_T)));
 			for(j = 0; j < CACHE_BLOCK_SIZE; j++) {
-				CACHE_OBJ.sets[set_index].lines[i].data[j] = dram_read(addr_base + j, 1) & 0xff;
+				CACHE_OBJ.sets[set_index].lines[i].data[j] = (dram_read(addr_base + j, 1) & 0xffU);
 				//printf("%x ", dram_read(addr_base + j, 1) & 0xff);
 			}
 			//printf("\n");
