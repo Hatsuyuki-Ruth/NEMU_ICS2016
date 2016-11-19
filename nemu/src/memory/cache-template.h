@@ -67,12 +67,12 @@ void CACHE_READ(uint8_t *result, uint32_t addr) {
 		if (CACHE_OBJ.sets[set_index].lines[i].valid &&
 		   (addr >> (ADDR_LEN - (CACHE_T))) == CACHE_OBJ.sets[set_index].lines[i].addr_t) {
 			*result = CACHE_OBJ.sets[set_index].lines[i].data[block_index];
-			puts("HIT\n");
+			puts("HIT");
 			return;
 			//return 1;
 		}
 	}
-	puts("MISS\n");
+	puts("MISS");
 	CACHE_ALLOC(addr);
 	for (i = 0; i < CACHE_LINE_NUM; i++) {
 		if (CACHE_OBJ.sets[set_index].lines[i].valid &&
