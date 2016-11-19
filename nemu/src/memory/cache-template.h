@@ -128,6 +128,15 @@ void CACHE_WRITE(uint32_t addr, uint8_t datum) {
 			return;
 		}
 	}
+	CACHE_ALLOC(addr);
+	for (i = 0; i < CACHE_LINE_NUM; i++) {
+		if (CACHE_OBJ.sets[set_index].lines[i].valid &&
+		   (addr >> (ADDR_LEN - (CACHE_T))) == CACHE_OBJ.sets[set_index].lines[i].addr_t) {
+			CACHE_OBJ.sets[set_index].lines[i].data[block_index] = datum;
+			CACHE_OBJ.sets[set_index].lines[i].dirty = 1;
+			return;
+		}
+	}
 }
 #endif
 
