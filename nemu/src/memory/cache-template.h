@@ -47,24 +47,26 @@ void CACHE_ALLOC(uint32_t addr) {
 	//printf("Allocating: %x\n", addr_base);
 	for (i = 0; i < CACHE_LINE_NUM; i++) {
 		if (!CACHE_OBJ.sets[set_index].lines[i].valid || i == CACHE_LINE_NUM - 1) {
-			/*
+			
 			#ifdef CACHE_WRITEBACK
 				if (CACHE_OBJ.sets[set_index].lines[i].valid
 					&& CACHE_OBJ.sets[set_index].lines[i].dirty) {
+					#define CUR_ADDR (((CACHE_OBJ.sets[set_index].lines[i].addr_t) << (CACHE_S + (CACHE_B))) + ((set_index) << (CACHE_B)))
 					for (j = 0; j < CACHE_BLOCK_SIZE; j++) {
-						CACHE_NEXT_LEVEL_WRITE(addr_base + j, CACHE_OBJ.sets[set_index].lines[i].data[j]);
+						CACHE_NEXT_LEVEL_WRITE(CUR_ADDR + j, CACHE_OBJ.sets[set_index].lines[i].data[j]);
 					}
+					#undef CUR_ADDR
 				}
 				CACHE_OBJ.sets[set_index].lines[i].dirty = 0;
 			#endif
-			*/
+			
 			CACHE_OBJ.sets[set_index].lines[i].valid = 1;
 			CACHE_OBJ.sets[set_index].lines[i].addr_t = (addr >> (ADDR_LEN - (CACHE_T)));
 			for(j = 0; j < CACHE_BLOCK_SIZE; j++) {
 				uint8_t res;
 				CACHE_NEXT_LEVEL_READ(&res, addr_base + j);
 				CACHE_OBJ.sets[set_index].lines[i].data[j] = (res & 0xffU);
-				//printf("%x ", dram_read(addr_base + j, 1) & 0xff);
+				/* printf("%x ", dram_read(addr_base + j, 1) & 0xff); */
 			}
 			//printf("\n");
 			return;
@@ -76,17 +78,17 @@ void CACHE_READ(uint8_t *result, uint32_t addr) {
 	int i;
 	uint32_t set_index = SET_INDEX(addr);
 	uint32_t block_index = (addr & ((1 << (CACHE_B)) - 1));
-	//printf("0x%x 0x%x 0x%x 0x%x\n", addr, (addr >> (ADDR_LEN - (CACHE_T))), set_index, block_index);
+	/* printf("0x%x 0x%x 0x%x 0x%x\n", addr, (addr >> (ADDR_LEN - (CACHE_T))), set_index, block_index); */
 	for (i = 0; i < CACHE_LINE_NUM; i++) {
 		if (CACHE_OBJ.sets[set_index].lines[i].valid &&
 		   (addr >> (ADDR_LEN - (CACHE_T))) == CACHE_OBJ.sets[set_index].lines[i].addr_t) {
 			*result = CACHE_OBJ.sets[set_index].lines[i].data[block_index];
-			//puts("HIT");
+			/* puts("HIT"); */
 			return;
-			//return 1;
+			/* return 1; */
 		}
 	}
-	//puts("MISS");
+	/* puts("MISS"); */
 	CACHE_ALLOC(addr);
 	for (i = 0; i < CACHE_LINE_NUM; i++) {
 		if (CACHE_OBJ.sets[set_index].lines[i].valid &&
@@ -95,7 +97,7 @@ void CACHE_READ(uint8_t *result, uint32_t addr) {
 			return;
 		}
 	}
-	//return 0;
+	/* return 0; */
 }
 
 #ifdef CACHE_WRITETHROUGH
