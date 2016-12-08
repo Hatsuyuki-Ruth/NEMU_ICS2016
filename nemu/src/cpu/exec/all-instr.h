@@ -54,3 +54,5 @@
 #include "string/stos.h"
 #include "string/scas.h"
 
+#include "seg/lgdt.h"
+

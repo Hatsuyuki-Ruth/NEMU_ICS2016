@@ -87,11 +87,11 @@ make_group(group6,
 	inv, inv, inv, inv)
 
 make_group(group7,
-	inv, inv, inv, inv, 
+	inv, inv, lgdt_rm2r_l, inv, 
 	inv, inv, inv, inv)
 
 
-/* TODO: Add more instructions!!! */
+/* DONE: Add more instructions!!! */
 
 helper_fun opcode_table [256] = {
 /* 0x00 */	add_r2rm_b, add_r2rm_v, add_rm2r_b , add_rm2r_v,
