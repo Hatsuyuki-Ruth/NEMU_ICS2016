@@ -65,11 +65,14 @@ static int cmd_info(char *args) {
 	if(args == NULL) printf("This command requires exactly one argument.\n");
 	if(*args == 'r') {
 		int i;
+		printf("---GPRs:\n");
 		for (i = R_EAX; i <= R_EDI; i++) {
-			printf("%%%s: %d 0x%08x\n", REG_NAME(i), reg_l(i), reg_l(i));
+			printf("%%%s: %08d 0x%08x\n", REG_NAME(i), reg_l(i), reg_l(i));
 		}
-		printf("$eip = %d 0x%08x\n", cpu.eip, cpu.eip);
-		printf("$EFLAGS = %d 0x%08x\n", cpu.EFLAGS, cpu.EFLAGS);
+		printf("---PC:\n");
+		printf("$eip = %08d 0x%08x\n", cpu.eip, cpu.eip);
+		printf("---EFLAGS:\n");
+		printf("$EFLAGS = %08d 0x%08x\n", cpu.EFLAGS, cpu.EFLAGS);
 		printf("$CF = %d\n", cpu.CF);
 		printf("$PF = %d\n", cpu.PF);
 		printf("$ZF = %d\n", cpu.ZF);
@@ -77,6 +80,14 @@ static int cmd_info(char *args) {
 		printf("$IF = %d\n", cpu.IF);
 		printf("$DF = %d\n", cpu.DF);
 		printf("$OF = %d\n", cpu.OF);
+		printf("--GDTR:\n");
+		printf("$GDTR = %08d 0x%08x\n", cpu.GDTR, cpu.GDTR);
+		printf("$GDT_LEN = %08d 0x%08x\n", cpu.GDT_LEN, cpu.GDT_LEN);
+		printf("--Segmentation:\n");
+		printf("$ES = %08d 0x%08x\n", cpu.ES, cpu.ES);
+		printf("$CS = %08d 0x%08x\n", cpu.CS, cpu.CS);
+		printf("$SS = %08d 0x%08x\n", cpu.SS, cpu.SS);
+		printf("$DS = %08d 0x%08x\n", cpu.DS, cpu.DS);
 	}
 	else if(*args == 'w') {
 		traverse();
