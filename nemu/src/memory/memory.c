@@ -54,12 +54,16 @@ void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 	/* No need to update DRAM, because the L2 cache is a write-back cache. */
 }
 
+extern hwaddr_t page_translate(lnaddr_t);
+
 uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
-	return hwaddr_read(addr, len);
+	hwaddr_t hwaddr = page_translate(addr);
+	return hwaddr_read(hwaddr, len);
 }
 
 void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
-	hwaddr_write(addr, len, data);
+	hwaddr_t hwaddr = page_translate(addr);
+	hwaddr_write(hwaddr, len, data);
 }
 
 extern lnaddr_t seg_translate(swaddr_t, uint8_t);
