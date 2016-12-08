@@ -88,6 +88,10 @@ static int cmd_info(char *args) {
 		printf("$CS = %10d 0x%08x\n", cpu.CS, cpu.CS);
 		printf("$SS = %10d 0x%08x\n", cpu.SS, cpu.SS);
 		printf("$DS = %10d 0x%08x\n", cpu.DS, cpu.DS);
+		printf("--Paging:\n");
+		printf("PG = %d\n", cpu.PG);
+		printf("PE = %d\n", cpu.PE);
+		printf("CR3 = 0x08%x\n", cpu.CR[3]);
 	}
 	else if(*args == 'w') {
 		traverse();
