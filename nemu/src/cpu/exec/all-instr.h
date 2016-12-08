@@ -60,3 +60,5 @@
 
 #include "string/std.h"
 
+#include "cmovcc/cmovcc.h"
+
