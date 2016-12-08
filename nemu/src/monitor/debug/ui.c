@@ -67,12 +67,12 @@ static int cmd_info(char *args) {
 		int i;
 		printf("---GPRs:\n");
 		for (i = R_EAX; i <= R_EDI; i++) {
-			printf("%%%s: %08d 0x%08x\n", REG_NAME(i), reg_l(i), reg_l(i));
+			printf("%%%s: %10d 0x%08x\n", REG_NAME(i), reg_l(i), reg_l(i));
 		}
 		printf("---PC:\n");
-		printf("$eip = %08d 0x%08x\n", cpu.eip, cpu.eip);
+		printf("$eip = %10d 0x%08x\n", cpu.eip, cpu.eip);
 		printf("---EFLAGS:\n");
-		printf("$EFLAGS = %08d 0x%08x\n", cpu.EFLAGS, cpu.EFLAGS);
+		printf("$EFLAGS = %10d 0x%08x\n", cpu.EFLAGS, cpu.EFLAGS);
 		printf("$CF = %d\n", cpu.CF);
 		printf("$PF = %d\n", cpu.PF);
 		printf("$ZF = %d\n", cpu.ZF);
@@ -81,8 +81,8 @@ static int cmd_info(char *args) {
 		printf("$DF = %d\n", cpu.DF);
 		printf("$OF = %d\n", cpu.OF);
 		printf("--GDTR:\n");
-		printf("$GDTR = %08d 0x%08x\n", cpu.GDTR, cpu.GDTR);
-		printf("$GDT_LEN = %08d 0x%08x\n", cpu.GDT_LEN, cpu.GDT_LEN);
+		printf("$GDTR    = %10d 0x%08x\n", cpu.GDTR, cpu.GDTR);
+		printf("$GDT_LEN = %10d 0x%08x\n", cpu.GDT_LEN, cpu.GDT_LEN);
 		printf("--Segmentation:\n");
 		printf("$ES = %10d 0x%08x\n", cpu.ES, cpu.ES);
 		printf("$CS = %10d 0x%08x\n", cpu.CS, cpu.CS);
