@@ -84,10 +84,10 @@ static int cmd_info(char *args) {
 		printf("$GDTR = %08d 0x%08x\n", cpu.GDTR, cpu.GDTR);
 		printf("$GDT_LEN = %08d 0x%08x\n", cpu.GDT_LEN, cpu.GDT_LEN);
 		printf("--Segmentation:\n");
-		printf("$ES = %08d 0x%08x\n", cpu.ES, cpu.ES);
-		printf("$CS = %08d 0x%08x\n", cpu.CS, cpu.CS);
-		printf("$SS = %08d 0x%08x\n", cpu.SS, cpu.SS);
-		printf("$DS = %08d 0x%08x\n", cpu.DS, cpu.DS);
+		printf("$ES = %10d 0x%08x\n", cpu.ES, cpu.ES);
+		printf("$CS = %10d 0x%08x\n", cpu.CS, cpu.CS);
+		printf("$SS = %10d 0x%08x\n", cpu.SS, cpu.SS);
+		printf("$DS = %10d 0x%08x\n", cpu.DS, cpu.DS);
 	}
 	else if(*args == 'w') {
 		traverse();
