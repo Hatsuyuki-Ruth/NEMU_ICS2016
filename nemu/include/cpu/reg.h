@@ -7,7 +7,7 @@ enum { R_EAX, R_ECX, R_EDX, R_EBX, R_ESP, R_EBP, R_ESI, R_EDI };
 enum { R_AX, R_CX, R_DX, R_BX, R_SP, R_BP, R_SI, R_DI };
 enum { R_AL, R_CL, R_DL, R_BL, R_AH, R_CH, R_DH, R_BH };
 
-/* TODO: Re-organize the `CPU_state' structure to match the register
+/* DONE: Re-organize the `CPU_state' structure to match the register
  * encoding scheme in i386 instruction format. For example, if we
  * access cpu.gpr[3]._16, we will get the `bx' register; if we access
  * cpu.gpr[1]._8[1], we will get the 'ch' register. Hint: Use `union'.
@@ -50,6 +50,30 @@ typedef struct {
 			uint32_t RF   :1;
 			uint32_t VM   :1;
 			uint32_t nan4 :14;
+		};
+	};
+	union {
+		uint32_t CR[4];
+		struct {
+			uint32_t CR0, CE1, CR2, CR3;
+		};
+		struct {
+			struct {
+				uint32_t PE : 1;
+				uint32_t MP : 1;
+				uint32_t EM : 1;
+				uint32_t TS : 1;
+				uint32_t ET : 1;
+				uint32_t nan: 26;
+				uint32_t PG : 1;
+			};
+		};
+	};
+	uint32_t GDTR, GDT_LEN;
+	union {
+		uint16_t seg[6];
+		struct {
+			uint16_t ES, CS, SS, DS, FS, GS;
 		};
 	};
 } CPU_state;
