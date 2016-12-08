@@ -58,3 +58,5 @@
 #include "seg/mov.h"
 #include "seg/ljmp.h"
 
+#include "string/std.h"
+
