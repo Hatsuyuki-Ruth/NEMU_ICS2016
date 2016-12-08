@@ -6,6 +6,8 @@ make_helper(ljmp) {
 	cpu.eip = new_eip;
 	cpu.seg[R_CS] = seg;
 	print_asm("ljmp 0x%x, 0x%x\n", seg, new_eip);
-	return 1 + 4 + 2;
+	//return 1 + 4 + 2;
+	/* Directly point to new_eip */
+	return 0;
 }
 
