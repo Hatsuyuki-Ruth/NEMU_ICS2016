@@ -16,7 +16,7 @@ extern int nr_symtab_entry;
 
 enum {
 	NOTYPE = 256, EQ, DIV, MUL, LEFT_B, RIGHT_B, NEQ, AND, OR, NOT, NUM, NUM16, REG, DEREF, VAL
-	/* TODO: Add more token types */
+	/* DONE: Add more token types */
 
 };
 
@@ -25,7 +25,7 @@ static struct rule {
 	int token_type;
 } rules[] = {
 
-	/* TODO: Add more rules.
+	/* DONE: Add more rules.
 	 * Pay attention to the precedence level of different rules.
 	 */
 
@@ -250,7 +250,7 @@ int eval(int p, int q) {
 			case EQ: return eval(p, op - 1) == eval(op + 1, q);
 			case NEQ: return eval(p, op - 1) != eval(op + 1, q);
 			case NOT: return !eval(p + 1, q);
-			case DEREF: return swaddr_read(eval(p + 1, q), 4);
+			case DEREF: return swaddr_read(eval(p + 1, q), 4, 3); /* R_DS */
 		}
 	}
 	return 0;

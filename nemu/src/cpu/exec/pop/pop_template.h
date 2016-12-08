@@ -5,7 +5,7 @@
 #define instr pop
 
 static void do_execute(){
-	OPERAND_W (op_src, MEM_R(REG (R_ESP)));
+	OPERAND_W (op_src, MEM_R(REG (R_ESP), R_SS));
 	//MEM_W(REG (R_ESP) , 0);
 	//Is it necessary?
 	REG (R_ESP) += DATA_BYTE;

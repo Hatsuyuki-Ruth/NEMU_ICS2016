@@ -3,7 +3,7 @@
 #define instr lods
 
 static void do_execute(){
-	REG(R_EAX) = swaddr_read(reg_l(R_ESI), DATA_BYTE);
+	REG(R_EAX) = swaddr_read(reg_l(R_ESI), DATA_BYTE, R_DS);
 //	printf("%x\n", cpu.esi);
 	if(cpu.DF == 0){
 		reg_l(R_ESI) += DATA_BYTE;

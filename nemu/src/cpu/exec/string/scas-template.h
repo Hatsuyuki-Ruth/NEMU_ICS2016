@@ -4,7 +4,7 @@
 #define instr scas
 
 static void do_execute(){
-	DATA_TYPE dest = swaddr_read(reg_l(R_EDI), DATA_BYTE);
+	DATA_TYPE dest = swaddr_read(reg_l(R_EDI), DATA_BYTE, R_DS);
 	DATA_TYPE src = REG(R_EAX);
 	DATA_TYPE res = src - dest;
 //	printf("%d %d", src, dest);

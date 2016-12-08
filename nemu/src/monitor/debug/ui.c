@@ -141,7 +141,7 @@ static int cmd_x(char *args) {
 	}
 	uint32_t i = res;
 	for(i = res; i < res + num * 4;i += 4) {
-		printf("Addr 0x%x: 0x%x\n", i, swaddr_read(i, 4));
+		printf("Addr 0x%x: 0x%x\n", i, swaddr_read(i, 4, 3)); /* R_DS */
 	}
 	//printf("%d %d\n", res, num);
 	return 0;
@@ -185,10 +185,11 @@ static int cmd_bt(char *args) {
 				break;
 		}
 		printf("%s(", strtab + symtab[i].st_name);
-		for(i = 0;i < 4;i++) printf(" %d", swaddr_read(addr + 8 + 4 * i, 4));
+		for(i = 0;i < 4;i++) printf(" %d", swaddr_read(addr + 8 + 4 * i, 4, 2));
+		/* R_SS */
 		printf(" )\n");
-		cur.prev_ebp = swaddr_read(addr, 4);
-		cur.ret_addr = swaddr_read(addr + 4, 4);
+		cur.prev_ebp = swaddr_read(addr, 2, 2);
+		cur.ret_addr = swaddr_read(addr + 4, 2, 2);
 		addr = cur.prev_ebp;	
 	}
 	return 0;

@@ -7,7 +7,7 @@
 static void do_execute(){
 	if(DATA_BYTE == 1) op_src->val = (int8_t)op_src->val;
 	cpu.esp -= 4;
-	swaddr_write(cpu.esp, 4, op_src->val);
+	swaddr_write(cpu.esp, 4, op_src->val, 2); /* R_SS */
 	print_asm_template1();
 }
 
