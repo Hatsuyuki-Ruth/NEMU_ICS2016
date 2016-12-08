@@ -23,3 +23,13 @@ make_helper(mov_cr_r2rm_l) {
 	return idex(eip, decode_r2rm_l, do_mov_cr_r2rm);
 }
 
+static void mov_sreg_rm2r() {
+	uint32_t sreg_ind = (instr_fetch(cpu.eip + 1, 1) >> 3) & 0x7;
+	cpu.seg[sreg_ind] = op_src->val;
+	print_asm("mov %s, %%%s", op_src->str, seg_reg_name[sreg_ind]);
+}
+
+make_helper(mov_sreg_rm2r_w) {
+	return idex(eip, decode_rm2r_w, mov_sreg_rm2r);
+}
+
