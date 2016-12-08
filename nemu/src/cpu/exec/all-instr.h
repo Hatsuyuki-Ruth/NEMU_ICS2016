@@ -56,4 +56,5 @@
 
 #include "seg/lgdt.h"
 #include "seg/mov.h"
+#include "seg/ljmp.h"
 
