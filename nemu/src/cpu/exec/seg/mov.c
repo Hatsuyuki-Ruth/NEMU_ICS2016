@@ -5,7 +5,9 @@ static inline void do_mov_cr_rm2r() {
 	print_asm("mov %s, CR%d", op_src->str, cr_ind);
 	cpu.CR[cr_ind] = op_src->val;
 	if (cr_ind == 3) {
-		/* TODO: Flush TLB. */
+		/* DONE: Flush TLB. */
+		extern void flush_tlb();
+		flush_tlb();
 	}
 }
 
