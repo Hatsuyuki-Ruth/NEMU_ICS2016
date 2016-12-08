@@ -1,6 +1,6 @@
 #include "common.h"
 
-/* #define USE_CACHE */
+#define USE_CACHE
 
 #ifdef USE_CACHE
 #include "cache.h"
