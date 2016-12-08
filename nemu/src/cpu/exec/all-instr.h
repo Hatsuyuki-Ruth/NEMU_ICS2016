@@ -55,4 +55,5 @@
 #include "string/scas.h"
 
 #include "seg/lgdt.h"
+#include "seg/mov.h"
 
